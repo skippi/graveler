@@ -7,7 +7,6 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.Mod.EventHandler
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 import org.apache.logging.log4j.Logger
 
 @Mod(
@@ -31,33 +30,10 @@ object Graveler {
 
   @EventHandler
   def init(event: FMLInitializationEvent): Unit = {
-    CapabilityManager.INSTANCE.register[Game](
-      classOf[Game],
-      new GameStorage,
-      new Callable[Game] { def call = new Game }
-    )
-
-    CapabilityManager.INSTANCE.register[Lives](
-      classOf[Lives],
-      new LivesStorage,
-      new Callable[Lives] { def call = new Lives }
-    )
-
     CapabilityManager.INSTANCE.register[Scheduler](
       classOf[Scheduler],
       new SchedulerStorage,
       (() => Scheduler()): Callable[Scheduler]
     )
-
-    CapabilityManager.INSTANCE.register[Aura](
-      classOf[Aura],
-      new AuraStorage,
-      new Callable[Aura] { def call = new Aura }
-    )
-  }
-
-  @EventHandler
-  def serverStarting(event: FMLServerStartingEvent): Unit = {
-    event.registerServerCommand(new CaoCommand)
   }
 }
