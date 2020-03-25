@@ -57,8 +57,9 @@ object PhysicsHandler {
 
   @SubscribeEvent
   def onBlockBreak(event: BlockEvent.BreakEvent): Unit = {
-    event.getWorld.getSchedulerOption
-      .foreach(_.setPhysicsAt(event.getPos, true))
+    event.getWorld.getSchedulerOption foreach {
+      _.setPhysicsAt(event.getPos, true)
+    }
   }
 
   @SubscribeEvent
@@ -66,6 +67,8 @@ object PhysicsHandler {
     val world = event.getWorld
     val pos = event.getPos
 
-    world.getSchedulerOption foreach { _.schedule(Gravity(pos)) }
+    world.getSchedulerOption foreach {
+      _.schedule(Gravity(pos))
+    }
   }
 }
