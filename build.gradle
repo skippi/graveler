@@ -45,7 +45,7 @@ compileScala {
     "-language:implicitConversions",
     "-unchecked",
     "-Wdead-code",
-    // "-Werror", // Enable once we removed the warnings
+    "-Werror",
     "-Wextra-implicit",
     "-Wnumeric-widen",
     "-Wunused:implicits",
