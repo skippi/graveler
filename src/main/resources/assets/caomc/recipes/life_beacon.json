@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " a ",
+    " x ",
+    " x "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:diamond"
+    },
+    "x": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "caomc:life_beacon"
+  }
+}

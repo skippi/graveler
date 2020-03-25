@@ -1,0 +1,151 @@
+buildscript {
+  repositories {
+    jcenter()
+    maven { url "https://files.minecraftforge.net/maven" }
+    maven { url "https://plugins.gradle.org/m2/" }
+  }
+  dependencies {
+    classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+  }
+}
+
+plugins {
+  id "java"
+  id "scala"
+  id "com.github.johnrengelman.shadow" version "4.0.4"
+  id "com.diffplug.gradle.spotless" version "3.27.2"
+}
+
+apply plugin: "net.minecraftforge.gradle.forge"
+
+version = "1.1"
+group = "caomc" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "caomc"
+
+dependencies {
+  compile 'org.scala-lang:scala-library:2.13.1'
+
+  testImplementation('junit:junit:4.13')
+  testCompile "org.scalatest:scalatest_2.13:3.1.1"
+  testCompile "org.scalatestplus:scalatestplus-junit_2.13:1.0.0-M2"
+}
+
+compileJava {
+  sourceCompatibility = targetCompatibility = '1.8'
+}
+
+compileScala {
+  def opts = [
+    "-deprecation",
+    "-explaintypes",
+    "-feature",
+    "-language:existentials",
+    "-language:experimental.macros",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-unchecked",
+    "-Wdead-code",
+    // "-Werror", // Enable once we removed the warnings
+    "-Wextra-implicit",
+    "-Wnumeric-widen",
+    "-Wunused:implicits",
+    "-Wunused:imports",
+    "-Wunused:locals",
+    // "-Wunused:params",
+    "-Wunused:patvars",
+    "-Wunused:privates",
+    "-Wvalue-discard",
+    "-Xcheckinit",
+    "-Xlint:adapted-args",
+    "-Xlint:constant",
+    "-Xlint:delayedinit-select",
+    "-Xlint:doc-detached",
+    "-Xlint:inaccessible",
+    "-Xlint:infer-any",
+    "-Xlint:missing-interpolator",
+    "-Xlint:nullary-override",
+    "-Xlint:nullary-unit",
+    "-Xlint:option-implicit",
+    "-Xlint:package-object-classes",
+    "-Xlint:poly-implicit-overload",
+    "-Xlint:private-shadow",
+    "-Xlint:stars-align",
+    "-Xlint:type-parameter-shadow",
+    "-Ybackend-parallelism", "8",
+    "-Ycache-plugin-class-loader:last-modified",
+    "-Ycache-macro-class-loader:last-modified",
+  ]
+
+  if (project.hasProperty("release")) {
+    opts.addAll(["-optimize"])
+  }
+
+  if (project.hasProperty("force")) {
+    scalaCompileOptions.with {
+      force = true
+    }
+  }
+
+  scalaCompileOptions.additionalParameters = opts
+}
+
+minecraft {
+  version = "1.12.2-14.23.5.2847"
+  runDir = "run"
+  mappings = "snapshot_20171003"
+
+  makeObfSourceJar = true
+}
+
+shadowJar {
+  classifier ''
+
+  dependencies {
+    include(dependency('org.scala-lang:scala-library:.*'))
+  }
+
+  relocate 'scala', 'caomc.shadow.scala'
+
+  minimize()
+}
+
+reobf {
+  shadowJar {}
+}
+
+processResources {
+  // this will ensure that this task is redone when the versions change.
+  inputs.property "version", project.version
+  inputs.property "mcversion", project.minecraft.version
+
+  // replace stuff in mcmod.info, nothing else
+  from(sourceSets.main.resources.srcDirs) {
+    include 'mcmod.info'
+
+    // replace version and mcversion
+    expand 'version':project.version, 'mcversion':project.minecraft.version
+  }
+      
+  // copy everything else except the mcmod.info
+  from(sourceSets.main.resources.srcDirs) {
+    exclude 'mcmod.info'
+  }
+}
+
+runClient {
+  args =  ["--username", "Foo"]
+}
+
+spotless {
+  java {
+    googleJavaFormat()
+    removeUnusedImports()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  scala {
+    scalafmt()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+}
