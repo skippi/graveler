@@ -1,7 +1,7 @@
 [
 {
-  "modid": "caomc",
-  "name": "CaoMC",
+  "modid": "graveler",
+  "name": "Graveler",
   "description": "Example placeholder mod.",
   "version": "${version}",
   "mcversion": "${mcversion}",

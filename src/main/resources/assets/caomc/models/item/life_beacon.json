@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-      "layer0": "caomc:items/life_beacon"
+      "layer0": "graveler:items/life_beacon"
   }
 }

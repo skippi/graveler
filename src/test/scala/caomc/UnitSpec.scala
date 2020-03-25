@@ -1,4 +1,4 @@
-package caomc
+package graveler
 
 import org.junit.runner.RunWith
 import org.scalatest.funsuite._
