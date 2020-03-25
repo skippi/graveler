@@ -1,7 +1,7 @@
 package graveler
 
 import graveler.CapabilityExtensions._
-import graveler.math.BoundedArea
+import graveler.math.Bounds
 import graveler.math.Vec3iExtensions._
 import net.minecraft.block._
 import net.minecraft.block.material.Material
@@ -20,8 +20,9 @@ object PhysicsExtensions {
     require(world != null)
 
     def fallAt(pos: BlockPos): World = {
-      val targetArea = BoundedArea.cube(pos, 32)
-      if (!world.isAreaLoaded(targetArea)) {
+      val targetBounds = Bounds(pos, new Vec3i(64, 64, 64))
+
+      if (!world.isAreaLoaded(targetBounds)) {
         return forceInstantFallAt(pos)
       }
 
@@ -70,8 +71,8 @@ object PhysicsExtensions {
       state.allowsSupporting && !downState.allowsFallThrough
     }
 
-    def isAreaLoaded(area: BoundedArea): Boolean = {
-      world.isAreaLoaded(new BlockPos(area.a), new BlockPos(area.b))
+    def isAreaLoaded(bounds: Bounds): Boolean = {
+      world.isAreaLoaded(new BlockPos(bounds.min), new BlockPos(bounds.max))
     }
 
     def isStableAt(pos: BlockPos): Boolean = {
