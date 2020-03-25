@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger
 object Graveler {
   final val ModId = "graveler"
   final val Name = "Graveler"
-  final val Version = "1.1"
+  final val Version = "0.1"
 
   final var Logger: Logger = null
 
