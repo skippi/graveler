@@ -1,6 +1,5 @@
 package graveler
 
-import graveler.physics._
 import net.minecraft.world.World
 
 object CapabilityExtensions {

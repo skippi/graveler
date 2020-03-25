@@ -1,7 +1,6 @@
 package graveler
 
 import graveler.CapabilityExtensions._
-import graveler.physics._
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World

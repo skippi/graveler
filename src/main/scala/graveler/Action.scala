@@ -1,4 +1,4 @@
-package graveler.physics
+package graveler
 
 import net.minecraft.util.math.BlockPos
 

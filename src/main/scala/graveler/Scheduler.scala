@@ -1,4 +1,4 @@
-package graveler.physics
+package graveler
 
 import PhysicsExtensions._
 import graveler.collection.UniquePriorityQueue

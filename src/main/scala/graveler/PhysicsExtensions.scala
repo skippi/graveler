@@ -1,4 +1,4 @@
-package graveler.physics
+package graveler
 
 import graveler.CapabilityExtensions._
 import graveler.math.BoundedArea

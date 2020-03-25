@@ -1,4 +1,4 @@
-package graveler.physics
+package graveler
 
 import net.minecraft.nbt.NBTBase
 import net.minecraft.util.EnumFacing

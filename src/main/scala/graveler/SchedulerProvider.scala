@@ -1,4 +1,4 @@
-package graveler.physics
+package graveler
 
 import graveler.forge.ScalaAnnotations._
 import net.minecraft.util.EnumFacing
