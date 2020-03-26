@@ -185,7 +185,7 @@ object PhysicsExtensions {
       !(isAir
         || isLiquid
         || isPortal
-        || isGrowable
+        || isPassable
         || block == Blocks.BEDROCK
         || block.isInstanceOf[BlockFalling]
         || block.isInstanceOf[BlockSign]
@@ -199,7 +199,6 @@ object PhysicsExtensions {
       !(isAir
         || isBush
         || isLiquid
-        || isGrowable
         || isPassable
         || block.isInstanceOf[BlockFalling]
         || block.isInstanceOf[BlockLeaves])
@@ -208,12 +207,12 @@ object PhysicsExtensions {
     def allowsFallThrough: Boolean = {
       val block = state.getBlock
 
-      (block == Blocks.FIRE
+      ((block == Blocks.FIRE
       || isAir
       || isBush
       || isLiquid
-      || isGrowable
       || isPassable)
+      && !block.isInstanceOf[BlockCauldron])
     }
 
     def isAir: Boolean = state.getMaterial == Material.AIR
@@ -224,7 +223,12 @@ object PhysicsExtensions {
 
     def isLiquid: Boolean = state.getBlock.isInstanceOf[BlockLiquid]
 
-    def isPassable: Boolean = state.getBlock.isPassable(null, null)
+    def isPassable: Boolean = try {
+      state.getBlock.isPassable(null, null)
+    } catch {
+      case _: NullPointerException =>
+        !state.getMaterial.blocksMovement // TODO: Fix this broken hack
+    }
 
     def isPortal: Boolean = state.getBlock.isInstanceOf[BlockPortal]
   }
