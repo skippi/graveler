@@ -4,7 +4,6 @@ import graveler.CapabilityExtensions._
 import graveler.math.Bounds
 import graveler.math.Vec3iExtensions._
 import net.minecraft.block._
-import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.item.EntityFallingBlock
 import net.minecraft.init.Blocks
@@ -64,18 +63,18 @@ object PhysicsExtensions {
       world
     }
 
-    def hasSupportingBlockAt(pos: BlockPos): Boolean = {
+    private def hasSupportingBlockAt(pos: BlockPos): Boolean = {
       val state = world.getBlockState(pos)
       val downState = world.getBlockState(pos.down)
 
       state.allowsSupporting && !downState.allowsFallThrough
     }
 
-    def isAreaLoaded(bounds: Bounds): Boolean = {
+    private def isAreaLoaded(bounds: Bounds): Boolean = {
       world.isAreaLoaded(new BlockPos(bounds.min), new BlockPos(bounds.max))
     }
 
-    def isStableAt(pos: BlockPos): Boolean = {
+    private def isStableAt(pos: BlockPos): Boolean = {
       if (pos.getY < 0) return true
 
       val state = world.getBlockState(pos)
@@ -112,7 +111,7 @@ object PhysicsExtensions {
             break
           }
 
-          if (world.hasSupportingBlockAt(currentPos)) {
+          if (hasSupportingBlockAt(currentPos)) {
             return true
           }
 
@@ -153,7 +152,7 @@ object PhysicsExtensions {
             break
           }
 
-          if (!world.isStableAt(pos)) {
+          if (!isStableAt(pos)) {
             scheduler.schedule(Fall(pos))
 
             posesToVisit.enqueue(pos.offset(EnumFacing.DOWN))
@@ -204,9 +203,9 @@ object PhysicsExtensions {
       && !block.isInstanceOf[BlockCauldron])
     }
 
-    def isLiquid: Boolean = state.getBlock.isInstanceOf[BlockLiquid]
+    private def isLiquid: Boolean = state.getBlock.isInstanceOf[BlockLiquid]
 
-    def isPassable: Boolean = {
+    private def isPassable: Boolean = {
       try {
         state.getBlock.isPassable(null, null)
       } catch {
