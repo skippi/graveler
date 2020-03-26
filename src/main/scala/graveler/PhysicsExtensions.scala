@@ -204,22 +204,15 @@ object PhysicsExtensions {
       && !block.isInstanceOf[BlockCauldron])
     }
 
-    def isAir: Boolean = state.getMaterial == Material.AIR
-
-    def isBush: Boolean = state.getBlock.isInstanceOf[BlockBush]
-
-    def isGrowable: Boolean = state.getBlock.isInstanceOf[IGrowable]
-
     def isLiquid: Boolean = state.getBlock.isInstanceOf[BlockLiquid]
 
-    def isPassable: Boolean =
+    def isPassable: Boolean = {
       try {
         state.getBlock.isPassable(null, null)
       } catch {
         case _: NullPointerException =>
           !state.getMaterial.blocksMovement // TODO: Fix this broken hack
       }
-
-    def isPortal: Boolean = state.getBlock.isInstanceOf[BlockPortal]
+    }
   }
 }
