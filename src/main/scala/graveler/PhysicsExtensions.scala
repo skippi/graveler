@@ -182,19 +182,19 @@ object PhysicsExtensions {
     def allowsFalling: Boolean = {
       val block = state.getBlock
 
-      !(isPassable
-        || isLiquid
-        || block == Blocks.BEDROCK
-        || block.isInstanceOf[BlockFalling]
-        || block.isInstanceOf[BlockLeaves])
+      (!isPassable
+      && !isLiquid
+      && block != Blocks.BEDROCK
+      && !block.isInstanceOf[BlockFalling]
+      && !block.isInstanceOf[BlockLeaves])
     }
 
     def allowsSupporting: Boolean = {
       val block = state.getBlock
 
-      !(isPassable
-        || isLiquid
-        || block.isInstanceOf[BlockLeaves])
+      (!isPassable
+      && !isLiquid
+      && !block.isInstanceOf[BlockLeaves])
     }
 
     def allowsFallThrough: Boolean = {
