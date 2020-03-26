@@ -200,9 +200,9 @@ object PhysicsExtensions {
         || isBush
         || isLiquid
         || isGrowable
+        || isPassable
         || block.isInstanceOf[BlockFalling]
-        || block.isInstanceOf[BlockLeaves]
-        || !state.isBlockNormalCube)
+        || block.isInstanceOf[BlockLeaves])
     }
 
     def allowsFallThrough: Boolean = {
@@ -213,7 +213,7 @@ object PhysicsExtensions {
       || isBush
       || isLiquid
       || isGrowable
-      || !state.isBlockNormalCube)
+      || isPassable)
     }
 
     def isAir: Boolean = state.getMaterial == Material.AIR
@@ -223,6 +223,8 @@ object PhysicsExtensions {
     def isGrowable: Boolean = state.getBlock.isInstanceOf[IGrowable]
 
     def isLiquid: Boolean = state.getBlock.isInstanceOf[BlockLiquid]
+
+    def isPassable: Boolean = state.getBlock.isPassable(null, null)
 
     def isPortal: Boolean = state.getBlock.isInstanceOf[BlockPortal]
   }
