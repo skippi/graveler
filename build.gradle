@@ -48,7 +48,7 @@ compileScala {
     "-Werror",
     "-Wextra-implicit",
     "-Wnumeric-widen",
-    "-Wunused:implicits",
+    //"-Wunused:implicits",
     "-Wunused:imports",
     "-Wunused:locals",
     // "-Wunused:params",
