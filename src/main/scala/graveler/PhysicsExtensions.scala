@@ -138,7 +138,7 @@ object PhysicsExtensions {
       var count = 0
       val scheduler = world.getSchedulerOption.get
 
-      while (posesToVisit.nonEmpty && count < 256) {
+      while (posesToVisit.nonEmpty && count < 512) {
         breakable {
           val pos = posesToVisit.dequeue
           if (visited.contains(pos)) {
