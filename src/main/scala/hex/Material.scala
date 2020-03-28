@@ -5,7 +5,7 @@ trait Material[A] {
 }
 
 object Material {
-  final class MaterialOps[A](a: A)(implicit ev: Material[A]) {
+  final class Ops[A](a: A)(implicit ev: Material[A]) {
     def isLiquid: Boolean = ev.isLiquid(a)
   }
 }

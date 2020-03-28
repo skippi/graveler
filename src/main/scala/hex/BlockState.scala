@@ -5,7 +5,7 @@ trait BlockState[A, Mat] {
 }
 
 object BlockState {
-  final class BlockStateOps[A, Mat](a: A)(implicit ev: BlockState[A, Mat]) {
+  final class Ops[A, Mat](a: A)(implicit ev: BlockState[A, Mat]) {
     def material(implicit ev2: Material[Mat]): Mat = ev.material(a)
   }
 }
