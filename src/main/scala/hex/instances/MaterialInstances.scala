@@ -1,6 +1,7 @@
 package hex.instances
 
 import hex.Material
+
 import net.minecraft.block.material.{Material => ForgeMaterial}
 
 trait MaterialInstances {
