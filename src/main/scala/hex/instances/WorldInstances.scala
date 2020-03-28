@@ -19,5 +19,7 @@ trait WorldInstances {
       a.setBlockState(new BlockPos(pos.x, pos.y, pos.z), state)
       ()
     }
+
+    def isRemote(a: ForgeWorld): Boolean = a.isRemote
   }
 }
