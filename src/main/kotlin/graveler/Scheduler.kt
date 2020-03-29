@@ -1,6 +1,5 @@
 package graveler
 
-import graveler.PhysicsUtil.*
 import graveler.collection.UniquePriorityQueue
 import java.lang.Math.*
 import java.util.HashSet
@@ -58,9 +57,9 @@ class Scheduler(private val processingRate: Int) {
         .map { _ -> queue.remove() }
         .forEach {
           when (it) {
-            is Fall -> fallAt(world, it.pos)
+            is Fall -> world.fallAt(it.pos)
             is Gravity -> if (canActAt(it.pos)) {
-              triggerGravityAt(world, it.pos)
+              world.triggerGravityAt(it.pos)
             }
           }
         }
