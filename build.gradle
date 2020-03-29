@@ -17,6 +17,10 @@ archivesBaseName = 'graveler'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+compileJava {
+    sourceCompatibility = '1.8'
+}
+
 minecraft {
     mappings channel: 'snapshot', version: '20200225-1.15.1'
     // makeObfSourceJar = false
@@ -33,7 +37,7 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
             mods {
                 examplemod {

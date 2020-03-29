@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import net.minecraft.util.math.Vec3i;
 
+import static graveler.math.Vec3Util.*;
+
 public class Bounds {
   private final Vec3i center;
   private final Vec3i size;
@@ -22,15 +24,15 @@ public class Bounds {
   }
 
   private Vec3i getExtent() {
-    return Vec3Util.divide(size, 2);
+    return divide(size, 2);
   }
 
   public Vec3i getMax() {
-    return Vec3Util.add(center, getExtent());
+    return add(center, getExtent());
   }
 
   public Vec3i getMin() {
-    return Vec3Util.subtract(center, getExtent());
+    return subtract(center, getExtent());
   }
 
   public List<Vec3i> getPoints() {

@@ -9,9 +9,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-@Mod("graveler")
+@Mod(GravelerMod.MODID)
 public class GravelerMod {
   private static final Logger LOGGER = LogManager.getLogger();
+
+  public static final String MODID = "graveler";
 
   public GravelerMod() {
     IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -20,11 +22,10 @@ public class GravelerMod {
     MinecraftForge.EVENT_BUS.register(this);
   }
 
-  private void init(final FMLCommonSetupEvent event) {
-    // CapabilityManager.INSTANCE.register[Scheduler](
-    //   classOf[Scheduler],
-    //   new SchedulerStorage,
-    //   (() => Scheduler()): Callable[Scheduler]
-    // )
+  private void init(final FMLCommonSetupEvent event) { 
+    CapabilityManager.INSTANCE.<Scheduler>register(
+      Scheduler.class,
+      new SchedulerStorage(),
+      Scheduler::withDefaults);
   }
 }
