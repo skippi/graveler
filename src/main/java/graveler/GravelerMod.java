@@ -20,6 +20,7 @@ public class GravelerMod {
     modEventBus.addListener(this::init);
 
     MinecraftForge.EVENT_BUS.register(this);
+    MinecraftForge.EVENT_BUS.register(new PhysicsHandler());
   }
 
   private void init(final FMLCommonSetupEvent event) {

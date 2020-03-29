@@ -1,6 +1,5 @@
 package graveler
 
-import graveler.CapabilityUtil.*
 import graveler.math.Bounds
 import graveler.math.Vec3Util.*
 import java.util.ArrayDeque
@@ -11,9 +10,6 @@ import net.minecraft.entity.item.FallingBlockEntity
 import net.minecraft.util.Direction
 import net.minecraft.util.math.*
 import net.minecraft.world.World
-import org.apache.logging.log4j.LogManager
-
-private val LOGGER = LogManager.getLogger()
 
 fun World.fallAt(pos: BlockPos) {
   val targetBounds = Bounds(pos, Vec3i(64, 64, 64))
@@ -123,6 +119,11 @@ private fun World.isStableAt(pos: BlockPos): Boolean {
 }
 
 fun World.triggerGravityAt(origin: BlockPos) {
+  val scheduler = this.scheduler
+  if (scheduler == null) {
+    return
+  }
+
   val visited = HashSet<BlockPos>()
   val posesToVisit = ArrayDeque<BlockPos>()
   posesToVisit.add(origin)
@@ -131,7 +132,6 @@ fun World.triggerGravityAt(origin: BlockPos) {
     posesToVisit.add(origin.offset(Direction.byIndex(i)))
   }
 
-  val scheduler = getSchedulerOption(this).orElseThrow(::NullPointerException)
   var count = 0
 
   while (!posesToVisit.isEmpty() && count < 512) {
