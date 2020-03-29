@@ -10,7 +10,7 @@ buildscript {
 }
 
 plugins {
-  id "scala"
+  id "org.jetbrains.kotlin.jvm" version "1.3.71"
   id "com.github.johnrengelman.shadow" version "4.0.4"
   id "com.diffplug.gradle.spotless" version "3.27.2"
 }
@@ -88,7 +88,7 @@ minecraft {
 dependencies {
   minecraft 'net.minecraftforge:forge:1.15.2-31.1.30'
 
-  compile 'org.scala-lang:scala-library:2.13.1'
+  compile 'org.jetbrains.kotlin:kotlin-stdlib'
 
   // You may put jars on which you depend on in ./libs or you may define them like so..
   // compile "some.group:artifact:version:classifier"
@@ -111,8 +111,8 @@ dependencies {
 
 sourceSets {
   main {
-    scala {
-      srcDirs = ['src/main/scala', 'src/main/java']
+    kotlin {
+      srcDirs = ['src/main/java', 'src/main/kotlin']
     }
     java {
       srcDirs = []
@@ -124,10 +124,10 @@ shadowJar {
   classifier ''
 
   dependencies {
-    include(dependency('org.scala-lang:scala-library:.*'))
+    include(dependency('org.jetbrains.kotlin:kotlin-stdlib:.*'))
   }
 
-  relocate 'scala', 'graveler.shadow.scala'
+  relocate 'kotlin', 'graveler.shadow.kotlin'
 
   minimize()
 }
@@ -177,9 +177,19 @@ spotless {
     trimTrailingWhitespace()
     endWithNewline()
   }
-  scala {
-    scalafmt()
-    trimTrailingWhitespace()
-    endWithNewline()
+  kotlin {
+    ktlint().userData([
+      'indent_size': '2',
+      'continuation_indent_size' : '2',
+      'disabled_rules': 'no-wildcard-imports'
+    ])
+  }
+  kotlinGradle {
+    target '*.gradle.kts', 'additionalScripts/*.gradle.kts'
+
+    ktlint().userData([
+      'indent_size': '2',
+      'continuation_indent_size' : '2'
+    ])
   }
 }
