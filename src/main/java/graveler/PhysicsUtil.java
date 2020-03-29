@@ -1,21 +1,20 @@
 package graveler;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.HashSet;
+import static graveler.CapabilityUtil.*;
+import static graveler.math.Vec3Util.*;
 
 import graveler.math.Bounds;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Queue;
 import net.minecraft.block.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
-import static graveler.CapabilityUtil.*;
-import static graveler.math.Vec3Util.*;
+import org.apache.logging.log4j.Logger;
 
 public class PhysicsUtil {
   private static final Logger LOGGER = LogManager.getLogger();
@@ -37,14 +36,12 @@ public class PhysicsUtil {
 
   private static void forceFallAt(final World world, final BlockPos pos) {
     world.addEntity(
-      new FallingBlockEntity(
-        world,
-        pos.getX() + 0.5d,
-        (double)pos.getY(),
-        pos.getZ() + 0.5d,
-        world.getBlockState(pos)
-      )
-    );
+        new FallingBlockEntity(
+            world,
+            pos.getX() + 0.5d,
+            (double) pos.getY(),
+            pos.getZ() + 0.5d,
+            world.getBlockState(pos)));
   }
 
   private static void forceInstantFallAt(final World world, final BlockPos pos) {
@@ -74,9 +71,7 @@ public class PhysicsUtil {
   }
 
   private static boolean isAreaLoaded(final World world, final Bounds bounds) {
-    return world.isAreaLoaded(
-      new BlockPos(bounds.getMin()),
-      new BlockPos(bounds.getMax()));
+    return world.isAreaLoaded(new BlockPos(bounds.getMin()), new BlockPos(bounds.getMax()));
   }
 
   private static boolean isStableAt(final World world, final BlockPos pos) {
@@ -190,25 +185,22 @@ public class PhysicsUtil {
     final Block block = state.getBlock();
 
     return (!isPassable(state)
-    && !isLiquid(state)
-    && block != Blocks.BEDROCK
-    && !(block instanceof FallingBlock)
-    && !(block instanceof LeavesBlock));
+        && !isLiquid(state)
+        && block != Blocks.BEDROCK
+        && !(block instanceof FallingBlock)
+        && !(block instanceof LeavesBlock));
   }
 
   public static boolean allowsSupporting(final BlockState state) {
     final Block block = state.getBlock();
 
-    return (!isPassable(state)
-    && !isLiquid(state)
-    && !(block instanceof LeavesBlock));
+    return (!isPassable(state) && !isLiquid(state) && !(block instanceof LeavesBlock));
   }
 
   public static boolean allowsFallThrough(final BlockState state) {
     final Block block = state.getBlock();
 
-    return ((isPassable(state) || isLiquid(state))
-    && !(block instanceof CauldronBlock));
+    return ((isPassable(state) || isLiquid(state)) && !(block instanceof CauldronBlock));
   }
 
   private static boolean isLiquid(final BlockState state) {
@@ -220,7 +212,7 @@ public class PhysicsUtil {
     // try {
     //   return state.getBlock().isPassable(null, null);
     // } catch (NullPointerException e) {
-      
+
     // }
   }
 }

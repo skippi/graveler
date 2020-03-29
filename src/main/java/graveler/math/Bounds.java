@@ -1,10 +1,10 @@
 package graveler.math;
 
-import java.util.List;
-import java.util.ArrayList;
-import net.minecraft.util.math.Vec3i;
-
 import static graveler.math.Vec3Util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import net.minecraft.util.math.Vec3i;
 
 public class Bounds {
   private final Vec3i center;

@@ -16,7 +16,7 @@ public class UniquePriorityQueue<E> {
   public E remove() {
     final E element = queue.remove();
     tracker.remove(element);
-    
+
     return element;
   }
 

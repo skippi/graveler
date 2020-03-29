@@ -6,8 +6,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(GravelerMod.MODID)
 public class GravelerMod {
@@ -22,10 +22,8 @@ public class GravelerMod {
     MinecraftForge.EVENT_BUS.register(this);
   }
 
-  private void init(final FMLCommonSetupEvent event) { 
+  private void init(final FMLCommonSetupEvent event) {
     CapabilityManager.INSTANCE.<Scheduler>register(
-      Scheduler.class,
-      new SchedulerStorage(),
-      Scheduler::withDefaults);
+        Scheduler.class, new SchedulerStorage(), Scheduler::withDefaults);
   }
 }

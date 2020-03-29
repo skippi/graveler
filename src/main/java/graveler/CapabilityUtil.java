@@ -1,6 +1,5 @@
 package graveler;
 
-import java.util.Optional;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;

@@ -8,6 +8,11 @@ buildscript {
     classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
   }
 }
+
+plugins {
+  id "com.diffplug.gradle.spotless" version "3.27.2"
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
 

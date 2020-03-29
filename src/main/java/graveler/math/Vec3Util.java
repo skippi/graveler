@@ -5,10 +5,7 @@ import net.minecraft.util.math.Vec3i;
 public class Vec3Util {
   public static Vec3i add(final Vec3i left, final Vec3i right) {
     return new Vec3i(
-      left.getX() + right.getX(),
-      left.getY() + right.getY(),
-      left.getZ() + right.getZ()
-    );
+        left.getX() + right.getX(), left.getY() + right.getY(), left.getZ() + right.getZ());
   }
 
   public static Vec3i divide(final Vec3i vec, final double scalar) {

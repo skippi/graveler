@@ -7,14 +7,13 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public class SchedulerStorage implements IStorage<Scheduler> {
   @Override
-  public INBT writeNBT(Capability<Scheduler> capability, Scheduler instance, Direction side)
-  {
+  public INBT writeNBT(Capability<Scheduler> capability, Scheduler instance, Direction side) {
     return null;
   }
 
   @Override
-  public void readNBT(Capability<Scheduler> capability, Scheduler instance, Direction side, INBT nbt)
-  {
+  public void readNBT(
+      Capability<Scheduler> capability, Scheduler instance, Direction side, INBT nbt) {
     // Do nothing
   }
 }

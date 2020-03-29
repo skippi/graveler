@@ -11,7 +11,7 @@ public class Action {
 
   static class Fall extends Action {
     public final BlockPos pos;
-    
+
     public Fall(final BlockPos pos) {
       super(1);
 
@@ -21,7 +21,7 @@ public class Action {
 
   static class Gravity extends Action {
     public final BlockPos pos;
-    
+
     public Gravity(final BlockPos pos) {
       super(0);
 

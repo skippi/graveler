@@ -1,15 +1,14 @@
 package graveler;
 
-import java.util.HashSet;
+import static graveler.PhysicsUtil.*;
 
 import graveler.collection.UniquePriorityQueue;
+import java.util.HashSet;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
-import static graveler.PhysicsUtil.*;
+import org.apache.logging.log4j.Logger;
 
 public class Scheduler {
   private static Logger LOGGER = LogManager.getLogger();
@@ -18,10 +17,8 @@ public class Scheduler {
 
   private HashSet<ChunkPos> allowedChunks = new HashSet<ChunkPos>();
   private UniquePriorityQueue<Action> queue =
-    new UniquePriorityQueue<Action>(
-      11,
-      (Action a, Action b) -> Integer.compare(b.priority, a.priority)
-    );
+      new UniquePriorityQueue<Action>(
+          11, (Action a, Action b) -> Integer.compare(b.priority, a.priority));
   private int cooldown = 0;
 
   public Scheduler(int processingRate) {

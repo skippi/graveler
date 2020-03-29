@@ -1,7 +1,6 @@
 package graveler;
 
 import javax.annotation.*;
-
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -15,7 +14,8 @@ public class SchedulerProvider implements ICapabilityProvider {
   private LazyOptional<Scheduler> instance = LazyOptional.of(PHYSICS_CAP::getDefaultInstance);
 
   @Override
-  public @Nonnull <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> cap, final @Nullable Direction side) {
+  public @Nonnull <T> LazyOptional<T> getCapability(
+      @Nonnull final Capability<T> cap, final @Nullable Direction side) {
     return PHYSICS_CAP.orEmpty(cap, instance);
   }
 }

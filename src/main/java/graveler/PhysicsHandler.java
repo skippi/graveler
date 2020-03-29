@@ -1,20 +1,21 @@
 package graveler;
 
+import static graveler.CapabilityUtil.*;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ChunkEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static graveler.CapabilityUtil.*;
-
 @Mod.EventBusSubscriber(modid = GravelerMod.MODID)
 public class PhysicsHandler {
-  public static final ResourceLocation PHYSICS_RES = new ResourceLocation(GravelerMod.MODID, "physics");
+  public static final ResourceLocation PHYSICS_RES =
+      new ResourceLocation(GravelerMod.MODID, "physics");
 
   @SubscribeEvent
   public static void onAttachWorldCapability(AttachCapabilitiesEvent<World> event) {
@@ -35,7 +36,7 @@ public class PhysicsHandler {
   @SubscribeEvent
   public static void onChunkUnload(ChunkEvent.Unload event) {
     getSchedulerOption(event.getWorld())
-      .ifPresent(s -> s.setPhysicsAt(event.getChunk().getPos(), false));
+        .ifPresent(s -> s.setPhysicsAt(event.getChunk().getPos(), false));
   }
 
   @SubscribeEvent
@@ -44,8 +45,7 @@ public class PhysicsHandler {
       return;
     }
 
-    getSchedulerOption(event.getWorld())
-      .ifPresent(s -> s.setPhysicsAt(event.getPos(), true));
+    getSchedulerOption(event.getWorld()).ifPresent(s -> s.setPhysicsAt(event.getPos(), true));
   }
 
   @SubscribeEvent
@@ -54,19 +54,17 @@ public class PhysicsHandler {
       return;
     }
 
-    getSchedulerOption(event.getWorld())
-      .ifPresent(s -> s.setPhysicsAt(event.getPos(), true));
+    getSchedulerOption(event.getWorld()).ifPresent(s -> s.setPhysicsAt(event.getPos(), true));
   }
 
   @SubscribeEvent
   public static void onBlockBreak(BlockEvent.BreakEvent event) {
-    getSchedulerOption(event.getWorld())
-      .ifPresent(s -> s.setPhysicsAt(event.getPos(), true));
+    getSchedulerOption(event.getWorld()).ifPresent(s -> s.setPhysicsAt(event.getPos(), true));
   }
 
   @SubscribeEvent
   public static void onNeighborNotify(BlockEvent.NeighborNotifyEvent event) {
     getSchedulerOption(event.getWorld())
-      .ifPresent(s -> s.schedule(new Action.Gravity(event.getPos())));
+        .ifPresent(s -> s.schedule(new Action.Gravity(event.getPos())));
   }
 }
