@@ -64,7 +64,6 @@ public class PhysicsHandler {
 
   @SubscribeEvent
   public static void onNeighborNotify(BlockEvent.NeighborNotifyEvent event) {
-    getSchedulerOption(event.getWorld())
-        .ifPresent(s -> s.schedule(new Action.Gravity(event.getPos())));
+    getSchedulerOption(event.getWorld()).ifPresent(s -> s.schedule(new Gravity(event.getPos())));
   }
 }

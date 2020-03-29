@@ -157,7 +157,7 @@ public class PhysicsUtil {
       }
 
       if (!isStableAt(world, pos)) {
-        scheduler.schedule(new Action.Fall(pos));
+        scheduler.schedule(new Fall(pos));
 
         posesToVisit.add(pos.offset(Direction.DOWN));
 
