@@ -1,7 +1,6 @@
 package graveler
 
-import graveler.math.Bounds
-import graveler.math.Vec3Util.*
+import graveler.math.*
 import java.util.ArrayDeque
 import java.util.HashSet
 import net.minecraft.block.*
@@ -100,7 +99,7 @@ private fun World.isStableAt(pos: BlockPos): Boolean {
     }
 
     val combinedAdhesion = (0.7f * originAdhesion + 0.3f * currentPosState.adhesion)
-    val distToPos = norm(subtract(currentPos, pos))
+    val distToPos = (currentPos - pos).norm
     if (distToPos > combinedAdhesion) {
       continue
     }
