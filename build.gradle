@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
 
-version = '1.0'
+version = '0.1'
 group = 'graveler' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'graveler'
 
