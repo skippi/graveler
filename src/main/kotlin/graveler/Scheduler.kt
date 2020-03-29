@@ -31,7 +31,7 @@ class Scheduler(private val processingRate: Int) {
     get() = cooldown != 0
 
   val hasPendingActions: Boolean
-    get() = !queue.isEmpty()
+    get() = !queue.isEmpty
 
   fun schedule(action: Action): Scheduler {
     queue.add(action)
@@ -53,7 +53,7 @@ class Scheduler(private val processingRate: Int) {
 
   fun tick(world: World): Scheduler {
     if (canPerformAction) {
-      (1..min(queue.size(), processingRate))
+      (1..min(queue.size, processingRate))
         .map { _ -> queue.remove() }
         .forEach {
           when (it) {
