@@ -20,12 +20,10 @@ public class GravelerMod {
     modEventBus.addListener(this::init);
 
     MinecraftForge.EVENT_BUS.register(this);
-
-    Test.Logger().info("OMG?");
   }
 
   private void init(final FMLCommonSetupEvent event) {
     CapabilityManager.INSTANCE.<Scheduler>register(
-        Scheduler.class, new SchedulerStorage(), Scheduler::apply);
+        Scheduler.class, new SchedulerStorage(), Scheduler.Companion::withDefaults);
   }
 }

@@ -109,17 +109,6 @@ dependencies {
   // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
-sourceSets {
-  main {
-    kotlin {
-      srcDirs = ['src/main/java', 'src/main/kotlin']
-    }
-    java {
-      srcDirs = []
-    }
-  }
-}
-
 shadowJar {
   classifier ''
 

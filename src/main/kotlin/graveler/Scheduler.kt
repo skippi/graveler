@@ -12,8 +12,9 @@ class Scheduler(private val processingRate: Int) {
   companion object {
     final val DefaultProcessingRate = 32
 
-    val withDefaults: Scheduler
-      get() = Scheduler(DefaultProcessingRate)
+    fun withDefaults(): Scheduler {
+      return Scheduler(DefaultProcessingRate)
+    }
   }
 
   private val allowedChunks = HashSet<ChunkPos>()
