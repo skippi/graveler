@@ -7,4 +7,4 @@ val IWorld.scheduler: Scheduler?
   get() = world.world.scheduler
 
 val World.scheduler: Scheduler?
-  get() = getCapability(SchedulerProvider.PHYSICS_CAP, null).orElse(null)
+  get() = getCapability(SchedulerProvider.CAPABILITY, null).orElse(null)
