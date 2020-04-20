@@ -1,7 +1,8 @@
 package graveler
 
 import graveler.collection.UniquePriorityQueue
-import java.lang.Math.*
+import graveler.util.fallAt
+import graveler.util.triggerGravityAt
 import java.util.HashSet
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos

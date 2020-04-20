@@ -1,6 +1,6 @@
 package graveler
 
-import graveler.ForgeExtensions.toLazyOptional
+import graveler.util.ForgeExtensions.toLazyOptional
 import net.minecraft.util.Direction
 import net.minecraft.world.IWorld
 import net.minecraft.world.World

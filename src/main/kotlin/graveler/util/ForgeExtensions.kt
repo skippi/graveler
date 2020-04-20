@@ -1,4 +1,4 @@
-package graveler
+package graveler.util
 
 import net.minecraftforge.common.util.LazyOptional
 
