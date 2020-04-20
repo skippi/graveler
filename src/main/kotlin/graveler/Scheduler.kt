@@ -10,7 +10,7 @@ import net.minecraft.world.World
 
 class Scheduler(private val processingRate: Int) {
   companion object {
-    final val DefaultProcessingRate = 32
+    private const val DefaultProcessingRate = 64
 
     fun withDefaults(): Scheduler {
       return Scheduler(DefaultProcessingRate)
