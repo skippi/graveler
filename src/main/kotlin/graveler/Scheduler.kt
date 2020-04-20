@@ -53,8 +53,8 @@ class Scheduler(private val processingRate: Int) {
 
   fun tick(world: World): Scheduler {
     if (canPerformAction) {
-      (1..min(queue.size, processingRate))
-        .map { _ -> queue.remove() }
+      (1..queue.size.coerceAtMost(processingRate))
+        .map { queue.remove() }
         .forEach {
           when (it) {
             is Fall -> world.fallAt(it.pos)

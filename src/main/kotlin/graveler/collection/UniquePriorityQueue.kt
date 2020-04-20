@@ -6,7 +6,7 @@ import java.util.PriorityQueue
 
 class UniquePriorityQueue<E>(initialCapacity: Int, comparator: Comparator<in E>) {
   val tracker = HashSet<E>()
-  val queue = PriorityQueue<E>(initialCapacity, comparator)
+  val queue = PriorityQueue(initialCapacity, comparator)
 
   fun remove(): E {
     val elem = queue.remove()

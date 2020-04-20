@@ -1,7 +1,7 @@
 package graveler
 
+import graveler.SchedulerProvider.Companion.scheduler
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.TickEvent
@@ -10,11 +10,9 @@ import net.minecraftforge.event.world.ChunkEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 class PhysicsHandler {
-  val PHYSICS_RES = ResourceLocation(GravelerMod.MODID, "physics")
-
   @SubscribeEvent
   fun onAttachWorldCapability(event: AttachCapabilitiesEvent<World>) {
-    event.addCapability(PHYSICS_RES, SchedulerProvider())
+    event.addCapability(SchedulerStorage.Resource, SchedulerProvider())
   }
 
   @SubscribeEvent

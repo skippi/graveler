@@ -1,5 +1,6 @@
 package graveler
 
+import graveler.SchedulerProvider.Companion.scheduler
 import graveler.math.*
 import java.util.ArrayDeque
 import java.util.HashSet
@@ -118,11 +119,7 @@ private fun World.isStableAt(pos: BlockPos): Boolean {
 }
 
 fun World.triggerGravityAt(origin: BlockPos) {
-  val scheduler = this.scheduler
-  if (scheduler == null) {
-    return
-  }
-
+  val scheduler = this.scheduler ?: return
   val visited = HashSet<BlockPos>()
   val posesToVisit = ArrayDeque<BlockPos>()
   posesToVisit.add(origin)
@@ -168,33 +165,27 @@ fun World.triggerGravityAt(origin: BlockPos) {
 
 private val BlockState.adhesion: Float
   get() {
-    val hardness = Math.max(Math.min(getBlockHardness(null, null), 10f), 0.6f)
-    return 2 * hardness
+    val hardness = getBlockHardness(null, null)
+    val coercedHardness = hardness
+            .coerceAtLeast(0.6f)
+            .coerceAtMost(10f)
+
+    return 2 * coercedHardness
   }
 
 private val BlockState.allowsFalling: Boolean
-  get() {
-    return (!isPassable &&
-        !isLiquid &&
+  get() = !isPassable && !isLiquid &&
         block != Blocks.BEDROCK &&
-        !(block is FallingBlock) &&
-        !(block is LeavesBlock))
-  }
+        block !is FallingBlock &&
+        block !is LeavesBlock
 
 private val BlockState.allowsSupporting: Boolean
-  get() {
-    return (!isPassable && !isLiquid && !(block is LeavesBlock))
-  }
+  get() = !isPassable && !isLiquid && block !is LeavesBlock
 
 private val BlockState.allowsFallThrough: Boolean
-  get() {
-    return ((isPassable || isLiquid) && !(block is CauldronBlock))
-  }
+  get() = (isPassable || isLiquid) && block !is CauldronBlock
 
-private val BlockState.isLiquid: Boolean
-  get() {
-    return material.isLiquid()
-  }
+private val BlockState.isLiquid: Boolean get() = material.isLiquid
 
 val BlockState.isPassable: Boolean
   get() {
