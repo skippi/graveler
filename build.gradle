@@ -5,7 +5,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+		classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
 	}
 }
 
@@ -15,7 +15,7 @@ plugins {
 	id "com.diffplug.gradle.spotless" version "3.27.2"
 }
 
-apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
@@ -26,88 +26,17 @@ archivesBaseName = 'graveler'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 dependencies {
-	minecraft 'net.minecraftforge:forge:1.15.2-31.1.30'
-
 	compile 'org.jetbrains.kotlin:kotlin-stdlib'
-
-	// You may put jars on which you depend on in ./libs or you may define them like so..
-	// compile "some.group:artifact:version:classifier"
-	// compile "some.group:artifact:version"
-
-	// Real examples
-	// compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-	// compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-	// The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
-	// provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-	// These dependencies get remapped to your current MCP mappings
-	// deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-	// For more info...
-	// http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-	// http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
 minecraft {
-	mappings channel: 'snapshot', version: '20200225-1.15.1'
-	// makeObfSourceJar = false
+	version = "1.12.2-14.23.5.2847"
+	mappings = "snapshot_20171003"
+
+	runDir = "run"
+	makeObfSourceJar = true
 
 	// accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-	runs {
-		client {
-			args = ['--username', 'Foo']
-
-			workingDirectory project.file('run')
-
-			// Recommended logging data for a userdev environment
-			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-			// Recommended logging level for the console
-			property 'forge.logging.console.level', 'info'
-
-			mods {
-				examplemod {
-					source sourceSets.main
-				}
-			}
-		}
-
-		server {
-			workingDirectory project.file('run')
-
-			// Recommended logging data for a userdev environment
-			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-			// Recommended logging level for the console
-			property 'forge.logging.console.level', 'debug'
-
-			mods {
-				examplemod {
-					source sourceSets.main
-				}
-			}
-		}
-
-		data {
-			workingDirectory project.file('run')
-
-			// Recommended logging data for a userdev environment
-			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-			// Recommended logging level for the console
-			property 'forge.logging.console.level', 'debug'
-
-			args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
-
-			mods {
-				examplemod {
-					source sourceSets.main
-				}
-			}
-		}
-	}
 }
 
 shadowJar {
@@ -126,6 +55,25 @@ reobf {
 	shadowJar {}
 }
 
+processResources {
+	// this will ensure that this task is redone when the versions change.
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
+
+	// replace stuff in mcmod.info, nothing else
+	from(sourceSets.main.resources.srcDirs) {
+		include 'mcmod.info'
+
+		// replace version and mcversion
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
+
+	// copy everything else except the mcmod.info
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'mcmod.info'
+	}
+}
+
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
 	manifest {
@@ -140,6 +88,11 @@ jar {
 		])
 	}
 }
+
+runClient {
+	args =  ["--username", "Foo"]
+}
+
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
@@ -168,7 +121,7 @@ spotless {
 		endWithNewline()
 	}
 	kotlin {
-		ktlint().userData([
+		ktlint("0.36.0").userData([
 			'indent_size': '2',
 			'continuation_indent_size' : '2',
 			'disabled_rules': 'no-wildcard-imports'

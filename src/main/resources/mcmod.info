@@ -1,0 +1,15 @@
+[
+{
+  "modid": "graveler",
+  "name": "Graveler",
+  "description": "A Minecraft mod that applies gravity to unstable structures.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/skippi/graveler",
+  "updateUrl": "",
+  "authorList": ["skippi"],
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

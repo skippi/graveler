@@ -1,7 +1,7 @@
 package graveler
 
-import net.minecraft.nbt.INBT
-import net.minecraft.util.Direction
+import net.minecraft.nbt.NBTBase
+import net.minecraft.util.EnumFacing
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
@@ -10,14 +10,14 @@ class SchedulerStorage : IStorage<Scheduler> {
   override fun writeNBT(
     capability: Capability<Scheduler>,
     instance: Scheduler,
-    side: Direction
-  ): INBT? = null
+    side: EnumFacing
+  ): NBTBase? = null
 
   override fun readNBT(
     capability: Capability<Scheduler>,
     instance: Scheduler,
-    side: Direction,
-    nbt: INBT
+    side: EnumFacing,
+    nbt: NBTBase
   ) {
     // Do nothing
   }

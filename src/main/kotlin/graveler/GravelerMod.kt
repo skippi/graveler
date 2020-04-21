@@ -3,23 +3,27 @@ package graveler
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.capabilities.CapabilityManager
 import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
+import net.minecraftforge.fml.common.event.FMLInitializationEvent
 
-@Mod(GravelerMod.ModId)
+@Mod(
+  modid = GravelerMod.ModId,
+  name = GravelerMod.Name,
+  version = GravelerMod.Version
+)
 class GravelerMod {
-  private fun init(event: FMLCommonSetupEvent) {
+  @Mod.EventHandler
+  fun init(event: FMLInitializationEvent) {
     CapabilityManager.INSTANCE.register(
       Scheduler::class.java, SchedulerStorage()) { Scheduler.withDefaults() }
   }
 
   companion object {
     const val ModId = "graveler"
+    const val Name = "Graveler"
+    const val Version = "0.1"
   }
 
   init {
-    val modEventBus = FMLJavaModLoadingContext.get().modEventBus
-    modEventBus.addListener { event: FMLCommonSetupEvent -> init(event) }
     MinecraftForge.EVENT_BUS.let {
       it.register(this)
       it.register(PhysicsHandler())

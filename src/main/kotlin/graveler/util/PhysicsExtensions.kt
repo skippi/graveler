@@ -6,9 +6,13 @@ import graveler.math.Bounds
 import graveler.math.minus
 import graveler.math.norm
 import java.util.*
-import net.minecraft.block.*
-import net.minecraft.entity.item.FallingBlockEntity
-import net.minecraft.util.Direction
+import net.minecraft.block.BlockCauldron
+import net.minecraft.block.BlockFalling
+import net.minecraft.block.BlockLeaves
+import net.minecraft.block.state.IBlockState
+import net.minecraft.entity.item.EntityFallingBlock
+import net.minecraft.init.Blocks
+import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
@@ -29,8 +33,8 @@ fun World.fallAt(pos: BlockPos) {
 }
 
 private fun World.forceFallAt(pos: BlockPos) {
-  addEntity(
-    FallingBlockEntity(
+  spawnEntity(
+    EntityFallingBlock(
       this,
       pos.x + 0.5,
       pos.y.toDouble(),
@@ -112,7 +116,7 @@ private fun World.isStableAt(pos: BlockPos): Boolean {
     }
 
     for (i in 0 until 4) {
-      val dir = Direction.byHorizontalIndex(i)
+      val dir = EnumFacing.getHorizontal(i)
       posesToVisit.add(currentPos.offset(dir))
     }
   }
@@ -127,7 +131,7 @@ fun World.triggerGravityAt(origin: BlockPos) {
   posesToVisit.add(origin)
 
   for (i in 0 until 6) {
-    posesToVisit.add(origin.offset(Direction.byIndex(i)))
+    posesToVisit.add(origin.offset(EnumFacing.VALUES[i]))
   }
 
   var count = 0
@@ -148,24 +152,24 @@ fun World.triggerGravityAt(origin: BlockPos) {
     if (!isStableAt(pos)) {
       scheduler.schedule(Fall(pos))
 
-      posesToVisit.add(pos.offset(Direction.DOWN))
+      posesToVisit.add(pos.offset(EnumFacing.DOWN))
 
       for (i in 0 until 4) {
-        val dir = Direction.byHorizontalIndex(i)
+        val dir = EnumFacing.getHorizontal(i)
         posesToVisit.add(pos.offset(dir))
       }
 
-      posesToVisit.add(pos.offset(Direction.UP))
+      posesToVisit.add(pos.offset(EnumFacing.UP))
     } else {
       for (i in 0 until 4) {
-        val dir = Direction.byHorizontalIndex(i)
+        val dir = EnumFacing.getHorizontal(i)
         posesToVisit.add(pos.offset(dir))
       }
     }
   }
 }
 
-private val BlockState.adhesion: Float
+private val IBlockState.adhesion: Float
   get() {
     val hardness = getBlockHardness(null, null)
     val coercedHardness = hardness
@@ -175,21 +179,21 @@ private val BlockState.adhesion: Float
     return 2 * coercedHardness
   }
 
-private val BlockState.allowsFalling: Boolean
+private val IBlockState.allowsFalling: Boolean
   get() = !isPassable && !isLiquid &&
     block != Blocks.BEDROCK &&
-    block !is FallingBlock &&
-    block !is LeavesBlock
+    block !is BlockFalling &&
+    block !is BlockLeaves
 
-private val BlockState.allowsSupporting: Boolean
-  get() = !isPassable && !isLiquid && block !is LeavesBlock
+private val IBlockState.allowsSupporting: Boolean
+  get() = !isPassable && !isLiquid && block !is BlockLeaves
 
-private val BlockState.allowsFallThrough: Boolean
-  get() = (isPassable || isLiquid) && block !is CauldronBlock
+private val IBlockState.allowsFallThrough: Boolean
+  get() = (isPassable || isLiquid) && block !is BlockCauldron
 
-private val BlockState.isLiquid: Boolean get() = material.isLiquid
+private val IBlockState.isLiquid: Boolean get() = material.isLiquid
 
-val BlockState.isPassable: Boolean
+val IBlockState.isPassable: Boolean
   get() {
     return !material.blocksMovement() // TODO: Fix this broken hack
     // try {

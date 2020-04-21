@@ -1,13 +1,13 @@
 package graveler
 
 import graveler.SchedulerProvider.Companion.scheduler
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.world.World
 import net.minecraftforge.event.AttachCapabilitiesEvent
-import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.world.BlockEvent
 import net.minecraftforge.event.world.ChunkEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.TickEvent
 
 class PhysicsHandler {
   @SubscribeEvent
@@ -33,7 +33,7 @@ class PhysicsHandler {
 
   @SubscribeEvent
   fun onBlockPlace(event: BlockEvent.EntityPlaceEvent) {
-    if (event.entity !is PlayerEntity) {
+    if (event.entity !is EntityPlayer) {
       return
     }
 
@@ -43,7 +43,7 @@ class PhysicsHandler {
 
   @SubscribeEvent
   fun onHarvestDrops(event: BlockEvent.HarvestDropsEvent) {
-    if (event.harvester !is PlayerEntity) {
+    if (event.harvester !is EntityPlayer) {
       return
     }
 
