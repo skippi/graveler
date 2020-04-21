@@ -8,21 +8,21 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 
 @Mod(GravelerMod.ModId)
 class GravelerMod {
-    private fun init(event: FMLCommonSetupEvent) {
-        CapabilityManager.INSTANCE.register(
-                Scheduler::class.java, SchedulerStorage()) { Scheduler.withDefaults() }
-    }
+  private fun init(event: FMLCommonSetupEvent) {
+    CapabilityManager.INSTANCE.register(
+      Scheduler::class.java, SchedulerStorage()) { Scheduler.withDefaults() }
+  }
 
-    companion object {
-        const val ModId = "graveler"
-    }
+  companion object {
+    const val ModId = "graveler"
+  }
 
-    init {
-        val modEventBus = FMLJavaModLoadingContext.get().modEventBus
-        modEventBus.addListener { event: FMLCommonSetupEvent -> init(event) }
-        MinecraftForge.EVENT_BUS.let {
-            it.register(this)
-            it.register(PhysicsHandler())
-        }
+  init {
+    val modEventBus = FMLJavaModLoadingContext.get().modEventBus
+    modEventBus.addListener { event: FMLCommonSetupEvent -> init(event) }
+    MinecraftForge.EVENT_BUS.let {
+      it.register(this)
+      it.register(PhysicsHandler())
     }
+  }
 }

@@ -2,14 +2,15 @@ package graveler.util
 
 import graveler.Fall
 import graveler.SchedulerProvider.Companion.scheduler
-import graveler.math.*
-import java.util.ArrayDeque
-import java.util.HashSet
+import graveler.math.Bounds
+import graveler.math.minus
+import graveler.math.norm
+import java.util.*
 import net.minecraft.block.*
-import net.minecraft.block.BlockState
 import net.minecraft.entity.item.FallingBlockEntity
 import net.minecraft.util.Direction
-import net.minecraft.util.math.*
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 
 fun World.fallAt(pos: BlockPos) {
@@ -168,17 +169,17 @@ private val BlockState.adhesion: Float
   get() {
     val hardness = getBlockHardness(null, null)
     val coercedHardness = hardness
-            .coerceAtLeast(0.6f)
-            .coerceAtMost(10f)
+      .coerceAtLeast(0.6f)
+      .coerceAtMost(10f)
 
     return 2 * coercedHardness
   }
 
 private val BlockState.allowsFalling: Boolean
   get() = !isPassable && !isLiquid &&
-        block != Blocks.BEDROCK &&
-        block !is FallingBlock &&
-        block !is LeavesBlock
+    block != Blocks.BEDROCK &&
+    block !is FallingBlock &&
+    block !is LeavesBlock
 
 private val BlockState.allowsSupporting: Boolean
   get() = !isPassable && !isLiquid && block !is LeavesBlock
