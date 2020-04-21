@@ -2,34 +2,22 @@ modLoader="javafml"
 loaderVersion="[31,)"
 issueTrackerURL="https://github.com/skippi/graveler/issues"
 
-
 [[mods]]
 modId="graveler"
 version="${file.jarVersion}"
 displayName="Graveler"
-# updateJSONURL="http://myurl.me/"
-displayURL="https://github.com/skippi/graveler" #optional
-# logoFile="examplemod.png"
-# credits="Thanks for this example mod goes to Java"
+displayURL="https://github.com/skippi/graveler"
 authors="skippi"
-description='''
-A Minecraft mod that applies gravity to unstable structures.
-'''
+description='''A Minecraft mod that applies gravity to unstable structures.'''
 
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.examplemod]] #optional
-    # the modid of the dependency
-    modId="forge" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
-    # The version range of the dependency
-    versionRange="[31,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+[[dependencies.graveler]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31,)"
     ordering="NONE"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
-# Here's another dependency
-[[dependencies.examplemod]]
+
+[[dependencies.graveler]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.15.2]"
