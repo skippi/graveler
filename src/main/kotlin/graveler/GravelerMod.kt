@@ -11,6 +11,8 @@ class GravelerMod {
   private fun init(event: FMLCommonSetupEvent) {
     CapabilityManager.INSTANCE.register(
       Scheduler::class.java, SchedulerStorage()) { Scheduler.withDefaults() }
+
+    CapabilityManager.INSTANCE.register(StressMap::class.java, StressMapStorage()) { StressMap(mutableMapOf()) }
   }
 
   companion object {

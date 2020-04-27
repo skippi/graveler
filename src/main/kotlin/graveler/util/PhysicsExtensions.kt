@@ -1,11 +1,6 @@
 package graveler.util
 
-import graveler.Fall
-import graveler.SchedulerProvider.Companion.scheduler
 import graveler.math.Bounds
-import graveler.math.minus
-import graveler.math.norm
-import java.util.*
 import net.minecraft.block.*
 import net.minecraft.entity.item.FallingBlockEntity
 import net.minecraft.util.Direction
@@ -43,158 +38,17 @@ private fun World.forceInstantFallAt(pos: BlockPos) {
 
   setBlockState(pos, Blocks.AIR.defaultState)
 
-  var newPos = pos.down()
-  while (getBlockState(newPos).allowsFallThrough && newPos.y > 0) {
-    newPos = newPos.down()
+  var below = this.pointedAt(pos).move(Direction.DOWN)
+  while (below.allowsFallThrough && below.pos.y > 0) {
+    below = below.move(Direction.DOWN)
   }
 
-  if (newPos.y > 0) {
+  if (below.pos.y > 0) {
     // Forge: Fix loss of state information during world gen.
-    setBlockState(newPos.up(), state)
+    setBlockState(below.pos.up(), state)
   }
-}
-
-private fun World.hasSupportingBlockAt(pos: BlockPos): Boolean {
-  val state = getBlockState(pos)
-  val downState = getBlockState(pos.down())
-
-  return state.allowsSupporting && !downState.allowsFallThrough
 }
 
 private fun World.isAreaLoaded(bounds: Bounds): Boolean {
   return isAreaLoaded(BlockPos(bounds.min), BlockPos(bounds.max))
 }
-
-private fun World.isStableAt(pos: BlockPos): Boolean {
-  if (pos.y < 0) {
-    return true
-  }
-
-  val state = getBlockState(pos)
-  if (!state.allowsFalling) {
-    return true
-  }
-
-  val downState = getBlockState(pos.down())
-  if (!downState.allowsFallThrough) {
-    return true
-  }
-
-  val visited = HashSet<BlockPos>()
-  val posesToVisit = ArrayDeque<BlockPos>()
-  posesToVisit.add(pos)
-
-  val originAdhesion = state.adhesion
-  var count = 0
-
-  while (!posesToVisit.isEmpty() && count < 128) {
-    val currentPos = posesToVisit.remove()
-    if (visited.contains(currentPos)) {
-      continue
-    }
-
-    ++count
-    visited.add(currentPos)
-
-    val currentPosState = getBlockState(currentPos)
-    if (!currentPosState.allowsSupporting) {
-      continue
-    }
-
-    val combinedAdhesion = (0.7f * originAdhesion + 0.3f * currentPosState.adhesion)
-    val distToPos = (currentPos - pos).norm
-    if (distToPos > combinedAdhesion) {
-      continue
-    }
-
-    if (hasSupportingBlockAt(currentPos)) {
-      return true
-    }
-
-    for (i in 0 until 4) {
-      val dir = Direction.byHorizontalIndex(i)
-      posesToVisit.add(currentPos.offset(dir))
-    }
-  }
-
-  return false
-}
-
-fun World.triggerGravityAt(origin: BlockPos) {
-  val scheduler = this.scheduler ?: return
-  val visited = HashSet<BlockPos>()
-  val posesToVisit = ArrayDeque<BlockPos>()
-  posesToVisit.add(origin)
-
-  for (i in 0 until 6) {
-    posesToVisit.add(origin.offset(Direction.byIndex(i)))
-  }
-
-  var count = 0
-
-  while (!posesToVisit.isEmpty() && count < 512) {
-    val pos = posesToVisit.remove()
-    if (visited.contains(pos)) {
-      continue
-    }
-
-    count += 1
-    visited.add(pos)
-
-    if (!getBlockState(pos).allowsFalling) {
-      continue
-    }
-
-    if (!isStableAt(pos)) {
-      scheduler.schedule(Fall(pos))
-
-      posesToVisit.add(pos.offset(Direction.DOWN))
-
-      for (i in 0 until 4) {
-        val dir = Direction.byHorizontalIndex(i)
-        posesToVisit.add(pos.offset(dir))
-      }
-
-      posesToVisit.add(pos.offset(Direction.UP))
-    } else {
-      for (i in 0 until 4) {
-        val dir = Direction.byHorizontalIndex(i)
-        posesToVisit.add(pos.offset(dir))
-      }
-    }
-  }
-}
-
-private val BlockState.adhesion: Float
-  get() {
-    val hardness = getBlockHardness(null, null)
-    val coercedHardness = hardness
-      .coerceAtLeast(0.6f)
-      .coerceAtMost(10f)
-
-    return 2 * coercedHardness
-  }
-
-private val BlockState.allowsFalling: Boolean
-  get() = !isPassable && !isLiquid &&
-    block != Blocks.BEDROCK &&
-    block !is FallingBlock &&
-    block !is LeavesBlock
-
-private val BlockState.allowsSupporting: Boolean
-  get() = !isPassable && !isLiquid && block !is LeavesBlock
-
-private val BlockState.allowsFallThrough: Boolean
-  get() = (isPassable || isLiquid) && block !is CauldronBlock
-
-private val BlockState.isLiquid: Boolean get() = material.isLiquid
-
-val BlockState.isPassable: Boolean
-  get() {
-    return !material.blocksMovement() // TODO: Fix this broken hack
-    // try {
-    //   return getBlock().isPassable(null, null)
-    // } catch (NullPointerException e) {
-
-    // }
-  }

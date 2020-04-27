@@ -2,7 +2,6 @@ package graveler
 
 import graveler.collection.UniquePriorityQueue
 import graveler.util.fallAt
-import graveler.util.triggerGravityAt
 import java.util.*
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
@@ -39,19 +38,6 @@ class Scheduler(private val processingRate: Int) {
     return this
   }
 
-  fun setPhysicsAt(pos: BlockPos, state: Boolean): Scheduler {
-    return setPhysicsAt(ChunkPos(pos), state)
-  }
-
-  fun setPhysicsAt(pos: ChunkPos, state: Boolean): Scheduler {
-    if (state)
-      allowedChunks.add(pos)
-    else
-      allowedChunks.remove(pos)
-
-    return this
-  }
-
   fun tick(world: World): Scheduler {
     if (canPerformAction) {
       (1..queue.size.coerceAtMost(processingRate))
@@ -59,9 +45,7 @@ class Scheduler(private val processingRate: Int) {
         .forEach {
           when (it) {
             is Fall -> world.fallAt(it.pos)
-            is Gravity -> if (canActAt(it.pos)) {
-              world.triggerGravityAt(it.pos)
-            }
+            else -> {}
           }
         }
     }
