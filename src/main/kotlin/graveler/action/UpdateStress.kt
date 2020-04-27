@@ -18,6 +18,10 @@ data class UpdateStress(val pos: BlockPos) : Action {
       return
     }
 
+    if (!world.isAreaLoaded(pos, 1)) {
+      return
+    }
+
     val newStress = point.stress
     if (newStress >= 7) {
       context.scheduler.schedule(Fall(pos))

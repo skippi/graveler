@@ -33,9 +33,11 @@ data class PointedWorld(val world: World, val pos: BlockPos) {
     return (horizontalStress + belowStress).min()!!
   }
 
-  val isStressAware: Boolean = block == Blocks.BLACK_WOOL
+  val isStressAware: Boolean
+    get() = !blockState.isAir(world, pos) && !isPermanentlyStable
 
-  val isPermanentlyStable: Boolean = blockState.isSolidSide(world, pos, Direction.UP)
+  val isPermanentlyStable: Boolean
+    get() = block == Blocks.BEDROCK || material.isLiquid
 
   fun move(direction: Direction): PointedWorld = copy(pos = pos.offset(direction))
 

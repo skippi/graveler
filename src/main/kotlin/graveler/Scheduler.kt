@@ -6,7 +6,7 @@ import kotlin.collections.ArrayDeque
 import net.minecraft.world.World
 
 @OptIn(ExperimentalStdlibApi::class)
-class Scheduler(var processingRate: Int = 128) {
+class Scheduler(var processingRate: Int = 3000) {
 
   private val queue = ArrayDeque<Action>()
   private var cooldown: Int = 0
@@ -19,13 +19,15 @@ class Scheduler(var processingRate: Int = 128) {
   fun tick(world: World): Scheduler {
     var count = 0
     val context = ActionContext(this, world)
-    while (!isBusy && queue.isNotEmpty() && count < processingRate) {
+    while (!isBusy && queue.isNotEmpty() && count < 3000) {
       val action = queue.removeFirst()
       action.apply(context)
       count += action.weight
     }
 
     cooldown = (cooldown + 1) % 1
+
+    println(queue.size)
 
     return this
   }
