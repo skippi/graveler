@@ -1,6 +1,5 @@
 package graveler.action
 
-import graveler.Mixins
 import graveler.util.pointedAt
 import graveler.util.scheduler
 import graveler.util.stressMap
@@ -26,7 +25,7 @@ data class UpdateStress(val pos: BlockPos) : Action {
 
     if (stresses[pos] != newStress) {
       stresses[pos] = newStress
-      Mixins.updateNeighbors(world, pos)
+      context.scheduler.schedule(UpdateNeighborStress(pos))
     }
   }
 }
