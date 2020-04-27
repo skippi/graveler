@@ -1,5 +1,6 @@
 package graveler
 
+import graveler.action.Fall
 import graveler.util.pointedAt
 import graveler.util.scheduler
 import graveler.util.stressMap
