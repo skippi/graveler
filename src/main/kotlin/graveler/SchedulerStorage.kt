@@ -1,5 +1,6 @@
 package graveler
 
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.INBT
 import net.minecraft.util.Direction
 import net.minecraft.util.ResourceLocation
@@ -10,14 +11,14 @@ class SchedulerStorage : IStorage<Scheduler> {
   override fun writeNBT(
     capability: Capability<Scheduler>,
     instance: Scheduler,
-    side: Direction
-  ): INBT? = null
+    side: Direction?
+  ): INBT? = CompoundNBT()
 
   override fun readNBT(
     capability: Capability<Scheduler>,
     instance: Scheduler,
-    side: Direction,
-    nbt: INBT
+    side: Direction?,
+    nbt: INBT?
   ) {
     // Do nothing
   }

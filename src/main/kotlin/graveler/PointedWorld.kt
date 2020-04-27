@@ -9,24 +9,28 @@ import net.minecraft.world.World
 
 data class PointedWorld(val world: World, val pos: BlockPos) {
   val stress: Int get() {
-    if (!allowsFalling) return 0
+    if (block != Blocks.BLACK_WOOL) return 0
 
     val stressMap = world.stressMap ?: return 0
-
     val below = move(Direction.DOWN)
-    val belowStress = stressMap[below.pos] ?: if (below.allowsFallThrough) MAX_STRESS else 0
+    val belowStress = when {
+      below.block == Blocks.BLACK_WOOL -> stressMap[below.pos] ?: 0
+      below.blockState.isSolidSide(world, below.pos, Direction.UP) -> 0
+      else -> MAX_STRESS
+    }
 
     val horizontalStress = Direction.Plane.HORIZONTAL
       .map { move(it) }
-      .filter { it.allowsSupporting }
-      .map { (stressMap[it.pos] ?: 0) + 1 }
+      .filter { it.block == Blocks.BLACK_WOOL }
+      .map { stressMap[it.pos] ?: 0 }
+      .map { it + 1 }
 
     return (horizontalStress + belowStress).min()!!
   }
 
   fun move(direction: Direction): PointedWorld = copy(pos = pos.offset(direction))
 
-  private val blockState: BlockState
+  val blockState: BlockState
     get() = world.getBlockState(pos)
 
   private val block: Block
@@ -34,18 +38,6 @@ data class PointedWorld(val world: World, val pos: BlockPos) {
 
   private val material: Material
     get() = blockState.material
-
-  private val allowsFalling: Boolean
-    get() = material.blocksMovement() &&
-      !material.isLiquid &&
-      block != Blocks.BEDROCK &&
-      block !is FallingBlock &&
-      block !is LeavesBlock
-
-  private val allowsSupporting: Boolean
-    get() = material.blocksMovement() &&
-      !material.isLiquid &&
-      block !is LeavesBlock
 
   val allowsFallThrough: Boolean
     get() = (!material.blocksMovement() || material.isLiquid) &&
