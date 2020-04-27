@@ -9,24 +9,33 @@ import net.minecraft.world.World
 
 data class PointedWorld(val world: World, val pos: BlockPos) {
   val stress: Int get() {
-    if (block != Blocks.BLACK_WOOL) return 0
+    if (!isStressAware) return 0
 
     val stressMap = world.stressMap ?: return 0
     val below = move(Direction.DOWN)
     val belowStress = when {
-      below.block == Blocks.BLACK_WOOL -> stressMap[below.pos] ?: 0
-      below.blockState.isSolidSide(world, below.pos, Direction.UP) -> 0
+      below.isStressAware -> stressMap[below.pos] ?: 0
+      below.isPermanentlyStable -> 0
       else -> MAX_STRESS
     }
 
     val horizontalStress = Direction.Plane.HORIZONTAL
       .map { move(it) }
-      .filter { it.block == Blocks.BLACK_WOOL }
-      .map { stressMap[it.pos] ?: 0 }
+      .map {
+        when {
+          it.isStressAware -> stressMap[it.pos] ?: 0
+          it.isPermanentlyStable -> 0
+          else -> MAX_STRESS
+        }
+      }
       .map { it + 1 }
 
     return (horizontalStress + belowStress).min()!!
   }
+
+  val isStressAware: Boolean = block == Blocks.BLACK_WOOL
+
+  val isPermanentlyStable: Boolean = blockState.isSolidSide(world, pos, Direction.UP)
 
   fun move(direction: Direction): PointedWorld = copy(pos = pos.offset(direction))
 

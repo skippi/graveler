@@ -3,7 +3,6 @@ package graveler
 import graveler.util.pointedAt
 import graveler.util.scheduler
 import graveler.util.stressMap
-import net.minecraft.block.Blocks
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
@@ -30,12 +29,10 @@ object Mixins {
   private fun PointedWorld.tickStress() {
     val stresses = world.stressMap?.stresses ?: return
 
-    if (blockState.isAir(world, pos)) {
+    if (!isStressAware) {
       stresses.remove(pos)
       return
     }
-
-    if (blockState.block != Blocks.BLACK_WOOL) return
 
     val newStress = stress
     if (newStress >= 7) {
