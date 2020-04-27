@@ -1,8 +1,8 @@
 package graveler
 
-import graveler.SchedulerProvider.Companion.scheduler
 import graveler.util.InstanceProvider
 import graveler.util.pointedAt
+import graveler.util.scheduler
 import graveler.util.stressMap
 import net.minecraft.world.World
 import net.minecraftforge.event.AttachCapabilitiesEvent
@@ -13,8 +13,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 class PhysicsHandler {
   @SubscribeEvent
   fun onAttachWorldCapability(event: AttachCapabilitiesEvent<World>) {
-    event.addCapability(SchedulerStorage.Resource, SchedulerProvider())
-    event.addCapability(StressMapStorage.RESOURCE, InstanceProvider(StressMapStorage.CAPABILITY))
+    event.addCapability(SchedulerStorage.Resource, InstanceProvider(Capabilities.SCHEDULER))
+    event.addCapability(StressMapStorage.RESOURCE, InstanceProvider(Capabilities.STRESS_MAP))
   }
 
   @SubscribeEvent

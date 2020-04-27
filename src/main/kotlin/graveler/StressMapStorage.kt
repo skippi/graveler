@@ -5,7 +5,6 @@ import net.minecraft.util.Direction
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
-import net.minecraftforge.common.capabilities.CapabilityInject
 
 class StressMapStorage : IStorage<StressMap> {
   override fun writeNBT(
@@ -41,9 +40,6 @@ class StressMapStorage : IStorage<StressMap> {
   }
 
   companion object {
-    @CapabilityInject(StressMap::class)
-    lateinit var CAPABILITY: Capability<StressMap>
-
     val RESOURCE = ResourceLocation(GravelerMod.ModId, "world_stress")
   }
 }
