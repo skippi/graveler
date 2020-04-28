@@ -5,7 +5,7 @@ import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 
 data class UpdateNeighborStress(val pos: BlockPos) : Action {
-  override val weight: Int = 0
+  override val weight: Double = 0.0
 
   override fun apply(context: ActionContext) {
     val world = context.world

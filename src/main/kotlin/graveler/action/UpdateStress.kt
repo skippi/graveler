@@ -4,7 +4,7 @@ import graveler.util.pointedAt
 import net.minecraft.util.math.BlockPos
 
 data class UpdateStress(val pos: BlockPos) : Action {
-  override val weight: Int = 1
+  override val weight: Double = 0.0
 
   override fun apply(context: ActionContext) {
     val world = context.world

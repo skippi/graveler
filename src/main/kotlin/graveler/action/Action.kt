@@ -1,7 +1,7 @@
 package graveler.action
 
 interface Action {
-  val weight: Int get() = 1
+  val weight: Double get() = 1.0
 
   fun apply(context: ActionContext)
 }
