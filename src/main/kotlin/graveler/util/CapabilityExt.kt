@@ -4,7 +4,6 @@ import graveler.Capabilities
 import graveler.PointedWorld
 import graveler.Scheduler
 import graveler.StressMap
-import io.skippi.cotm.util.toNullable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk

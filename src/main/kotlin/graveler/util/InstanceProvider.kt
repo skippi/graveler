@@ -1,6 +1,5 @@
 package graveler.util
 
-import io.skippi.cotm.util.toLazyOptional
 import net.minecraft.nbt.INBT
 import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability

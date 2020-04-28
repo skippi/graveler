@@ -1,4 +1,4 @@
-package graveler.math
+package graveler.util
 
 import net.minecraft.util.math.Vec3i
 
