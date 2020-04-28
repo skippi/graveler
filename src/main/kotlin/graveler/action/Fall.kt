@@ -1,8 +1,10 @@
 package graveler.action
 
 import graveler.util.Bounds
+import graveler.util.PointedWorld
 import graveler.util.pointedAt
 import net.minecraft.block.Blocks
+import net.minecraft.block.CauldronBlock
 import net.minecraft.entity.item.FallingBlockEntity
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
@@ -60,4 +62,8 @@ data class Fall(val pos: BlockPos) : Action {
   private fun World.isAreaLoaded(bounds: Bounds): Boolean {
     return isAreaLoaded(BlockPos(bounds.min), BlockPos(bounds.max))
   }
+
+  private val PointedWorld.allowsFallThrough: Boolean
+    get() = (!material.blocksMovement() || material.isLiquid) &&
+      block !is CauldronBlock
 }

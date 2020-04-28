@@ -1,7 +1,6 @@
 package graveler.util
 
 import graveler.Capabilities
-import graveler.PointedWorld
 import graveler.Scheduler
 import graveler.StressMap
 import net.minecraft.util.math.BlockPos
