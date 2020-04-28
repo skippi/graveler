@@ -40,6 +40,6 @@ class StressMapStorage : IStorage<StressMap> {
   }
 
   companion object {
-    val RESOURCE = ResourceLocation(GravelerMod.ModId, "world_stress")
+    val RESOURCE = ResourceLocation(GravelerMod.ModId, "stress")
   }
 }
