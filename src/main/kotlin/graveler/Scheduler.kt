@@ -19,7 +19,7 @@ class Scheduler(var processingRate: Int = 3000) {
   fun tick(world: World): Scheduler {
     var count = 0
     val context = ActionContext(this, world)
-    while (!isBusy && queue.isNotEmpty() && count < 3000) {
+    while (!isBusy && queue.isNotEmpty() && count < 100000) {
       val action = queue.removeFirst()
       action.apply(context)
       count += action.weight

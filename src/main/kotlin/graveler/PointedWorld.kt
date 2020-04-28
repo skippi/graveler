@@ -35,7 +35,8 @@ data class PointedWorld(val world: World, val pos: BlockPos) {
       }
     }
 
-  private val chunk: Chunk? = world.getChunkAt(pos)
+  private val chunk: Chunk?
+    get() = world.getChunkAt(pos)
 
   val isStressAware: Boolean
     get() = !blockState.isAir(world, pos) && !isPermanentlyStable
