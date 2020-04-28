@@ -1,7 +1,7 @@
 package graveler.math
 
-import kotlin.math.sqrt
 import net.minecraft.util.math.Vec3i
+import kotlin.math.sqrt
 
 operator fun Vec3i.unaryMinus(): Vec3i {
   return Vec3i(-x, -y, -z)

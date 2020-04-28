@@ -2,12 +2,10 @@ package graveler
 
 import graveler.action.Action
 import graveler.action.ActionContext
-import kotlin.collections.ArrayDeque
 import net.minecraft.world.World
 
 @OptIn(ExperimentalStdlibApi::class)
 class Scheduler(var processingRate: Double = 1.0) {
-
   private val queue = ArrayDeque<Action>()
   private var cooldown: Int = 0
 

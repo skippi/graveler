@@ -1,7 +1,7 @@
 package graveler.util
 
 import graveler.math.Bounds
-import net.minecraft.block.*
+import net.minecraft.block.Blocks
 import net.minecraft.entity.item.FallingBlockEntity
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
