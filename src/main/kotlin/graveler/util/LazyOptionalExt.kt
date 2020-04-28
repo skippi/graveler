@@ -1,6 +1,6 @@
 @file:JvmMultifileClass
 
-package io.skippi.cotm.util
+package graveler.util
 
 import net.minecraftforge.common.util.LazyOptional
 

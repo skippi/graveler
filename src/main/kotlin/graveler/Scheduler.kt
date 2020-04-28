@@ -5,7 +5,7 @@ import graveler.action.ActionContext
 import net.minecraft.world.World
 
 @OptIn(ExperimentalStdlibApi::class)
-class Scheduler(var processingRate: Double = 1.0) {
+class Scheduler(private var processingRate: Double = 1.0) {
   private val queue = ArrayDeque<Action>()
   private var cooldown: Int = 0
 
