@@ -4,11 +4,14 @@ import graveler.Capabilities
 import graveler.Scheduler
 import graveler.StressMap
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.IWorld
 import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.chunk.IChunk
 
-fun World.pointedAt(pos: BlockPos): PointedWorld = PointedWorld(this, pos)
+fun IWorld.pointedAt(pos: BlockPos): PointedWorld = PointedWorld(this, pos)
 
-val Chunk.stressMap: StressMap? get() = getCapability(Capabilities.STRESS_MAP).toNullable
+val IChunk.stressMap: StressMap?
+  get() = (this as? Chunk)?.getCapability(Capabilities.STRESS_MAP)?.toNullable
 
-val World.scheduler: Scheduler? get() = getCapability(Capabilities.SCHEDULER).toNullable
+val IWorld.scheduler: Scheduler?
+  get() = world.getCapability(Capabilities.SCHEDULER).toNullable

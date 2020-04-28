@@ -5,12 +5,12 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.material.Material
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
-import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.IWorld
+import net.minecraft.world.chunk.IChunk
 
-data class PointedWorld(val world: World, val pos: BlockPos) {
-  val chunk: Chunk?
-    get() = world.getChunkAt(pos)
+data class PointedWorld(val world: IWorld, val pos: BlockPos) {
+  val chunk: IChunk?
+    get() = world.getChunk(pos)
 
   fun move(direction: Direction): PointedWorld = copy(pos = pos.offset(direction))
 
