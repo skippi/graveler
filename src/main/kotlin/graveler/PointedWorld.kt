@@ -6,42 +6,46 @@ import net.minecraft.block.material.Material
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraft.world.chunk.Chunk
 
 data class PointedWorld(val world: World, val pos: BlockPos) {
-  val stress: Int get() {
+  fun getNewStress(): Int {
     if (!isStressAware) return 0
 
-    val stressMap = world.stressMap ?: return 0
     val below = move(Direction.DOWN)
-    val belowStress = when {
-      below.isStressAware -> stressMap[below.pos] ?: 0
-      below.isPermanentlyStable -> 0
+    val horizontalStress = Direction.Plane.HORIZONTAL
+      .map { move(it).stress + 1 }
+
+    return (horizontalStress + below.stress).min()!!
+  }
+
+  fun clearStress() {
+    chunk?.stressMap?.stresses?.remove(pos)
+  }
+
+  var stress: Int
+    get() = when {
+      isStressAware -> chunk?.stressMap?.get(pos) ?: 0
+      isPermanentlyStable -> 0
       else -> MAX_STRESS
     }
-
-    val horizontalStress = Direction.Plane.HORIZONTAL
-      .map { move(it) }
-      .map {
-        when {
-          it.isStressAware -> stressMap[it.pos] ?: 0
-          it.isPermanentlyStable -> 0
-          else -> MAX_STRESS
-        }
+    set(value) {
+      when {
+        isStressAware -> chunk?.stressMap?.set(pos, value)
       }
-      .map { it + 1 }
+    }
 
-    return (horizontalStress + belowStress).min()!!
-  }
+  private val chunk: Chunk? = world.getChunkAt(pos)
 
   val isStressAware: Boolean
     get() = !blockState.isAir(world, pos) && !isPermanentlyStable
 
-  val isPermanentlyStable: Boolean
+  private val isPermanentlyStable: Boolean
     get() = block == Blocks.BEDROCK || material.isLiquid
 
   fun move(direction: Direction): PointedWorld = copy(pos = pos.offset(direction))
 
-  val blockState: BlockState
+  private val blockState: BlockState
     get() = world.getBlockState(pos)
 
   private val block: Block

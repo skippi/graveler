@@ -12,7 +12,7 @@ class GravelerMod {
     CapabilityManager.INSTANCE.register(
       Scheduler::class.java, SchedulerStorage()) { Scheduler() }
 
-    CapabilityManager.INSTANCE.register(StressMap::class.java, StressMapStorage()) { StressMap(mutableMapOf()) }
+    CapabilityManager.INSTANCE.register(StressMap::class.java, StressMapStorage()) { StressMap() }
   }
 
   companion object {
