@@ -1,6 +1,5 @@
 package graveler.action
 
-import graveler.util.Bounds
 import graveler.util.PointedWorld
 import graveler.util.pointedAt
 import net.minecraft.block.Blocks
@@ -8,7 +7,6 @@ import net.minecraft.block.CauldronBlock
 import net.minecraft.entity.item.FallingBlockEntity
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 
 data class Fall(val pos: BlockPos) : Action {
@@ -19,9 +17,7 @@ data class Fall(val pos: BlockPos) : Action {
   }
 
   private fun World.fallAt(pos: BlockPos) {
-    val targetBounds = Bounds(pos, Vec3i(64, 64, 64))
-
-    if (!isAreaLoaded(targetBounds)) {
+    if (!isAreaLoaded(pos, 32)) {
       forceInstantFallAt(pos)
       return
     }
@@ -57,10 +53,6 @@ data class Fall(val pos: BlockPos) : Action {
       // Forge: Fix loss of state information during world gen.
       setBlockState(below.pos.up(), state)
     }
-  }
-
-  private fun World.isAreaLoaded(bounds: Bounds): Boolean {
-    return isAreaLoaded(BlockPos(bounds.min), BlockPos(bounds.max))
   }
 
   private val PointedWorld.allowsFallThrough: Boolean
