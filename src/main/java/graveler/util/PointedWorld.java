@@ -50,8 +50,7 @@ public record PointedWorld(LevelAccessor level, BlockPos pos) {
       }
 
       StressMap stressMap = WorldExtensions.getStressMap(chunk);
-      Integer value = stressMap.get(pos);
-      return value == null ? 0 : value;
+      return stressMap.get(pos);
     }
 
     if (isPermanentlyStable()) {

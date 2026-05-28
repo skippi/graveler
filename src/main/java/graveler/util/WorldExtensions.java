@@ -25,6 +25,8 @@ public final class WorldExtensions {
   }
 
   public static StressMap getStressMap(ChunkAccess chunk) {
-    return chunk.getAttachedOrCreate(GravelerAttachments.STRESS_MAP);
+    StressMap stressMap = chunk.getAttachedOrCreate(GravelerAttachments.STRESS_MAP);
+    stressMap.bindTo(chunk);
+    return stressMap;
   }
 }
