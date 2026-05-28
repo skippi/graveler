@@ -6,10 +6,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.ChunkAccess;
 
 public class StressMap {
   public static final int SECTION_BLOCK_COUNT = 4096;
+
+  @FunctionalInterface
+  public interface NonZeroVisitor {
+    void accept(int worldX, int worldY, int worldZ, int stress);
+  }
 
   private record SectionEntry(int section, List<Byte> data) {
     static final Codec<SectionEntry> CODEC =
@@ -61,6 +67,56 @@ public class StressMap {
     }
 
     ensureSections(chunk.getSectionsCount());
+  }
+
+  public boolean hasNonZeroData() {
+    if (sections == null) {
+      return false;
+    }
+
+    for (byte[] section : sections) {
+      if (section != null) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public void forEachNonZeroInBox(
+      ChunkPos chunkPos, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, NonZeroVisitor visitor) {
+    if (sections == null) {
+      return;
+    }
+
+    int chunkBaseX = chunkPos.getMinBlockX();
+    int chunkBaseZ = chunkPos.getMinBlockZ();
+    int minSection = Math.max(0, (minY - this.minY) >> 4);
+    int maxSection = Math.min(sections.length - 1, (maxY - this.minY) >> 4);
+
+    for (int sectionIndex = minSection; sectionIndex <= maxSection; sectionIndex++) {
+      byte[] section = sections[sectionIndex];
+      if (section == null) {
+        continue;
+      }
+
+      int sectionBaseY = this.minY + (sectionIndex << 4);
+      for (int index = 0; index < SECTION_BLOCK_COUNT; index++) {
+        byte value = section[index];
+        if (value == 0) {
+          continue;
+        }
+
+        int worldX = chunkBaseX + (index & 15);
+        int worldY = sectionBaseY + ((index >> 8) & 15);
+        int worldZ = chunkBaseZ + ((index >> 4) & 15);
+        if (worldX < minX || worldX > maxX || worldY < minY || worldY > maxY || worldZ < minZ || worldZ > maxZ) {
+          continue;
+        }
+
+        visitor.accept(worldX, worldY, worldZ, value & 0xFF);
+      }
+    }
   }
 
   public int get(BlockPos pos) {
