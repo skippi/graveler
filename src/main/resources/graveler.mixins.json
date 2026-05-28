@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "graveler.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["BlockStateMixin", "ServerLevelMixin"],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "graveler",
+  "version": "${version}",
+  "name": "Graveler",
+  "description": "A Minecraft mod that applies gravity to unstable structures.",
+  "authors": ["skippi"],
+  "contact": {
+    "homepage": "https://github.com/skippi/graveler",
+    "issues": "https://github.com/skippi/graveler/issues"
+  },
+  "license": "GPL-3.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["graveler.GravelerMod"]
+  },
+  "mixins": ["graveler.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.2",
+    "minecraft": "~26.1.2",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
