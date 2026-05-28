@@ -12,9 +12,10 @@
   "license": "GPL-3.0",
   "environment": "*",
   "entrypoints": {
-    "main": ["graveler.GravelerMod"]
+    "main": ["graveler.GravelerMod"],
+    "client": ["graveler.GravelerModClient"]
   },
-  "mixins": ["graveler.mixins.json"],
+  "mixins": ["graveler.mixins.json", "graveler.client.mixins.json"],
   "depends": {
     "fabricloader": ">=0.19.2",
     "minecraft": "~26.1.2",
