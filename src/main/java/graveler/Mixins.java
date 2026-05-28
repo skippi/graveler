@@ -11,6 +11,10 @@ public final class Mixins {
   private Mixins() {}
 
   public static void updateNeighbors(ServerLevel level, BlockPos pos) {
+    if (level.isClientSide()) {
+      return;
+    }
+
     Scheduler scheduler = WorldExtensions.getScheduler(level);
     if (scheduler != null) {
       scheduler.schedule(new UpdateNeighborStress(pos));
@@ -18,7 +22,7 @@ public final class Mixins {
   }
 
   public static void onBlockAdded(Level level, BlockPos pos) {
-    if (!(level instanceof ServerLevel serverLevel)) {
+    if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
       return;
     }
 

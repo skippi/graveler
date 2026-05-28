@@ -48,6 +48,6 @@ public record UpdateStress(BlockPos pos) implements Action {
             .min()
             .orElse(Integer.MAX_VALUE);
 
-    return Math.min(horizontalStress, below.stress() + 1);
+    return Math.min(horizontalStress, below.stress());
   }
 }
