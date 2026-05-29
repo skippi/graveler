@@ -6,6 +6,10 @@ Minecraft mod that adds structural integrity to the game's building systems.
 
 Download it from [Modrinth](https://modrinth.com/project/graveler) or [GitHub Releases](https://github.com/skippi/graveler/releases).
 
+## Debug Mode
+
+You can visualize stress by enabling `graveler:visualize_stress` from the game's debug menu (`F3+F6`).
+
 ## Algorithm
 
 Graveler stores "stress" per chunk. Stress is calculated as following:
