@@ -1,5 +1,6 @@
 package graveler.action;
 
+import graveler.StressBlockStats;
 import graveler.util.PointedWorld;
 import graveler.util.WorldExtensions;
 import net.minecraft.core.BlockPos;
@@ -25,7 +26,7 @@ public record UpdateStress(BlockPos pos) implements Action {
     }
 
     int newStress = getNewStress(point);
-    if (newStress >= 7) {
+    if (newStress >= StressBlockStats.get(point.block()).strength()) {
       context.scheduler().schedule(new Fall(pos));
     }
 
@@ -42,7 +43,7 @@ public record UpdateStress(BlockPos pos) implements Action {
     int stress = point.move(Direction.DOWN).stress();
     for (Direction direction : Direction.Plane.HORIZONTAL) {
       var neighbor = point.move(direction);
-      stress = Math.min(stress, neighbor.stress() + 1);
+      stress = Math.min(stress, neighbor.stress());
     }
     stress = Math.max(0, stress + cantileverPenalty(point));
     stress = Math.max(0, stress - archBonus(point));
@@ -58,13 +59,14 @@ public record UpdateStress(BlockPos pos) implements Action {
 
   private static int archBonus(PointedWorld point) {
     var result = 0;
-    var eastDown = point.move(Direction.EAST).move(Direction.DOWN);
-    var westDown = point.move(Direction.WEST).move(Direction.DOWN);
+    var below = point.move(Direction.DOWN);
+    var eastDown = below.move(Direction.EAST);
+    var westDown = below.move(Direction.WEST);
     if (eastDown.blockState().isSolid() && westDown.blockState().isSolid()) {
       result += 1;
     }
-    var northDown = point.move(Direction.NORTH).move(Direction.DOWN);
-    var southDown = point.move(Direction.SOUTH).move(Direction.DOWN);
+    var northDown = below.move(Direction.NORTH);
+    var southDown = below.move(Direction.SOUTH);
     if (northDown.blockState().isSolid() && southDown.blockState().isSolid()) {
       result += 1;
     }

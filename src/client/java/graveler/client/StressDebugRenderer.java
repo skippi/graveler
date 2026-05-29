@@ -1,6 +1,7 @@
 package graveler.client;
 
 import graveler.GravelerAttachments;
+import graveler.StressBlockStats;
 import graveler.StressMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,8 @@ import net.minecraft.gizmos.GizmoStyle;
 import net.minecraft.gizmos.Gizmos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.Mth;
 import net.minecraft.util.debug.DebugValueAccess;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -19,9 +22,8 @@ import net.minecraft.world.phys.AABB;
 
 public final class StressDebugRenderer implements DebugRenderer.SimpleDebugRenderer {
   private static final int RADIUS = 12;
-  private static final int MAX_STRESS = 7;
   private static final int FILL_ALPHA = 45;
-  private static final int[] STRESS_COLORS = buildStressColors();
+  private static final int COLLAPSE_STRESS = StressBlockStats.DEFAULT_STRENGTH;
   private static final BlockPos.MutableBlockPos MUTABLE_POS = new BlockPos.MutableBlockPos();
   private static final AABB BLOCK_BOUNDS = new AABB(0, 0, 0, 1, 1, 1);
 
@@ -146,26 +148,28 @@ public final class StressDebugRenderer implements DebugRenderer.SimpleDebugRende
     stresses = new int[capacity];
   }
 
-  private static int[] buildStressColors() {
-    int[] colors = new int[MAX_STRESS + 1];
-    for (int stress = 1; stress <= MAX_STRESS; stress++) {
-      float ratio = stress / (float) MAX_STRESS;
-      int red = (int) (ratio * 255);
-      int green = (int) ((1.0f - ratio) * 255);
-      colors[stress] = (FILL_ALPHA << 24) | (red << 16) | (green << 8);
-    }
-    return colors;
-  }
-
   private static int colorForStress(int stress) {
-    if (stress <= 0) {
-      return 0;
+    int headroom = COLLAPSE_STRESS - stress;
+    float ratio;
+    if (headroom <= 1) {
+      ratio = 1.0f;
+    } else {
+      float load = stress / (float) (COLLAPSE_STRESS - 1);
+      ratio = (float) Math.pow(Mth.clamp(load, 0.0f, 1.0f), 0.55f);
     }
 
-    if (stress >= MAX_STRESS) {
-      return STRESS_COLORS[MAX_STRESS];
+    int red;
+    int green;
+    if (ratio <= 0.5f) {
+      float t = ratio * 2.0f;
+      red = (int) (255 * t);
+      green = (int) (255 - (255 - 165) * t);
+    } else {
+      float t = (ratio - 0.5f) * 2.0f;
+      red = 255;
+      green = (int) (165 * (1.0f - t));
     }
 
-    return STRESS_COLORS[stress];
+    return ARGB.color(FILL_ALPHA, red, green, 0);
   }
 }
