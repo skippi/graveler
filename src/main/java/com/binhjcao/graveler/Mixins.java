@@ -1,8 +1,8 @@
-package graveler;
+package com.binhjcao.graveler;
 
-import graveler.action.UpdateNeighborStress;
-import graveler.action.UpdateStress;
-import graveler.util.WorldExtensions;
+import com.binhjcao.graveler.action.UpdateNeighborStress;
+import com.binhjcao.graveler.action.UpdateStress;
+import com.binhjcao.graveler.util.WorldExtensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;

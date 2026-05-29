@@ -1,8 +1,8 @@
-package graveler.util;
+package com.binhjcao.graveler.util;
 
-import graveler.GravelerAttachments;
-import graveler.StressMap;
-import graveler.Scheduler;
+import com.binhjcao.graveler.GravelerAttachments;
+import com.binhjcao.graveler.StressMap;
+import com.binhjcao.graveler.Scheduler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;

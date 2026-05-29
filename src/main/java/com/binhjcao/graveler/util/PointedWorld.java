@@ -1,6 +1,6 @@
-package graveler.util;
+package com.binhjcao.graveler.util;
 
-import graveler.StressMap;
+import com.binhjcao.graveler.StressMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;

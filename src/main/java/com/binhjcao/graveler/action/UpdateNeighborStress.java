@@ -1,6 +1,6 @@
-package graveler.action;
+package com.binhjcao.graveler.action;
 
-import graveler.util.WorldExtensions;
+import com.binhjcao.graveler.util.WorldExtensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 

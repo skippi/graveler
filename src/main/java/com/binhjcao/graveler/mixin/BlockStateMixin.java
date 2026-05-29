@@ -1,6 +1,6 @@
-package graveler.mixin;
+package com.binhjcao.graveler.mixin;
 
-import graveler.Mixins;
+import com.binhjcao.graveler.Mixins;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;

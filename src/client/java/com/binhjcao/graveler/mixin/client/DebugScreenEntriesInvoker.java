@@ -1,4 +1,4 @@
-package graveler.mixin.client;
+package com.binhjcao.graveler.mixin.client;
 
 import net.minecraft.client.gui.components.debug.DebugScreenEntry;
 import net.minecraft.resources.Identifier;

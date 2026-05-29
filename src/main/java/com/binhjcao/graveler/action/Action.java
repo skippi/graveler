@@ -1,4 +1,4 @@
-package graveler.action;
+package com.binhjcao.graveler.action;
 
 public interface Action {
   default double weight() {

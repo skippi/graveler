@@ -12,8 +12,8 @@
   "license": "GPL-3.0",
   "environment": "*",
   "entrypoints": {
-    "main": ["graveler.GravelerMod"],
-    "client": ["graveler.GravelerModClient"]
+    "main": ["com.binhjcao.graveler.GravelerMod"],
+    "client": ["com.binhjcao.graveler.GravelerModClient"]
   },
   "mixins": ["graveler.mixins.json", "graveler.client.mixins.json"],
   "depends": {

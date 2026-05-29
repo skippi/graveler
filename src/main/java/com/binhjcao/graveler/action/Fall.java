@@ -1,7 +1,7 @@
-package graveler.action;
+package com.binhjcao.graveler.action;
 
-import graveler.util.PointedWorld;
-import graveler.util.WorldExtensions;
+import com.binhjcao.graveler.util.PointedWorld;
+import com.binhjcao.graveler.util.WorldExtensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.FallingBlockEntity;

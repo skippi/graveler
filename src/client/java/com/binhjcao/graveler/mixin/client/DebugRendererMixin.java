@@ -1,7 +1,7 @@
-package graveler.mixin.client;
+package com.binhjcao.graveler.mixin.client;
 
-import graveler.client.GravelerDebugEntries;
-import graveler.client.StressDebugRenderer;
+import com.binhjcao.graveler.client.GravelerDebugEntries;
+import com.binhjcao.graveler.client.StressDebugRenderer;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.debug.DebugRenderer;

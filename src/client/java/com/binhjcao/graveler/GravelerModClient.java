@@ -1,7 +1,7 @@
-package graveler;
+package com.binhjcao.graveler;
 
-import graveler.client.GravelerDebugEntries;
-import graveler.client.StressDebugRenderer;
+import com.binhjcao.graveler.client.GravelerDebugEntries;
+import com.binhjcao.graveler.client.StressDebugRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.resources.Identifier;

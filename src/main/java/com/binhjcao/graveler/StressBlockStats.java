@@ -1,4 +1,4 @@
-package graveler;
+package com.binhjcao.graveler;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;

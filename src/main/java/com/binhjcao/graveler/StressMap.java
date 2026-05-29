@@ -1,4 +1,4 @@
-package graveler;
+package com.binhjcao.graveler;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

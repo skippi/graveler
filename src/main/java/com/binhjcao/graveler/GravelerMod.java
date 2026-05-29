@@ -1,4 +1,4 @@
-package graveler;
+package com.binhjcao.graveler;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;

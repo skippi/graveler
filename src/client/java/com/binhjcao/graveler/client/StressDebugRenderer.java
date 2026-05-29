@@ -1,8 +1,8 @@
-package graveler.client;
+package com.binhjcao.graveler.client;
 
-import graveler.GravelerAttachments;
-import graveler.StressBlockStats;
-import graveler.StressMap;
+import com.binhjcao.graveler.GravelerAttachments;
+import com.binhjcao.graveler.StressBlockStats;
+import com.binhjcao.graveler.StressMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

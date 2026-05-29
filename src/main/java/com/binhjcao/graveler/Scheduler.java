@@ -1,7 +1,7 @@
-package graveler;
+package com.binhjcao.graveler;
 
-import graveler.action.Action;
-import graveler.action.ActionContext;
+import com.binhjcao.graveler.action.Action;
+import com.binhjcao.graveler.action.ActionContext;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import net.minecraft.server.level.ServerLevel;

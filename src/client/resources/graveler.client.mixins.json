@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "graveler.mixin.client",
+  "package": "com.binhjcao.graveler.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "DebugRendererMixin",

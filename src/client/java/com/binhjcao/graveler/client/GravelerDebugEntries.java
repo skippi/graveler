@@ -1,7 +1,7 @@
-package graveler.client;
+package com.binhjcao.graveler.client;
 
-import graveler.GravelerMod;
-import graveler.mixin.client.DebugScreenEntriesInvoker;
+import com.binhjcao.graveler.GravelerMod;
+import com.binhjcao.graveler.mixin.client.DebugScreenEntriesInvoker;
 import net.minecraft.client.gui.components.debug.DebugEntryNoop;
 import net.minecraft.resources.Identifier;
 
